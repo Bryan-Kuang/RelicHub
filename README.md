@@ -1,36 +1,124 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Antique E-commerce Website
+
+A bilingual (Chinese/English) e-commerce website for antique items with user and admin interfaces.
+
+## Features
+
+- **Bilingual Support**: Full Chinese and English language support
+- **User Interface**:
+  - Search products by name or meaning
+  - Random product recommendations
+  - Product detail pages with meaning descriptions
+  - Direct links to Amazon for purchasing
+- **Admin Interface**:
+  - Secure login with phone number SMS verification
+  - Product management (add/edit/delete)
+  - Admin user management
+  - Role-based permissions (regular admin vs super admin)
+
+## Tech Stack
+
+- **Frontend**: Next.js, React, TypeScript, Tailwind CSS
+- **UI Components**: Ant Design
+- **Authentication**: Firebase Authentication (Phone)
+- **Database**: Firebase Firestore
+- **Internationalization**: i18next
+- **Deployment**: Vercel
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js (v18 or later)
+- npm or yarn
+- Firebase account
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   git clone https://github.com/yourusername/antique-ecommerce.git
+   cd antique-ecommerce
+   ```
 
-## Learn More
+2. Install dependencies:
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   npm install
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. Set up Firebase:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   - Create a new Firebase project at [Firebase Console](https://console.firebase.google.com/)
+   - Enable Authentication with Phone provider
+   - Create a Firestore database
+   - Get your Firebase configuration
+   - Update `.env.local` with your Firebase configuration
 
-## Deploy on Vercel
+4. Run the development server:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   npm run dev
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
+
+### Setting up Admin Access
+
+You can set up the initial admin user and sample products using the provided initialization script:
+
+1. First, make sure you've set up your Firebase project and updated the `.env.local` file with your Firebase configuration.
+
+2. Run the initialization script with your phone number:
+
+   ```bash
+   npm run init-firebase +1234567890
+   ```
+
+   Replace `+1234567890` with your actual phone number in E.164 format.
+
+3. This script will:
+   - Create a superadmin user with your phone number
+   - Add sample products to the database
+
+## Deployment to Vercel
+
+1. Create a Vercel account at [vercel.com](https://vercel.com)
+2. Install Vercel CLI:
+
+   ```bash
+   npm install -g vercel
+   ```
+
+3. Login to Vercel:
+
+   ```bash
+   vercel login
+   ```
+
+4. Deploy the project:
+
+   ```bash
+   vercel
+   ```
+
+5. Set up environment variables in the Vercel dashboard:
+   - Go to your project settings
+   - Add all the Firebase environment variables from `.env.local`
+
+## Project Structure
+
+- `/src/app`: Next.js app router pages
+- `/src/components`: React components
+  - `/layout`: Layout components
+  - `/user`: User interface components
+  - `/admin`: Admin interface components
+- `/src/lib`: Utility functions and configurations
+  - `/firebase`: Firebase configuration and utilities
+  - `/i18n`: Internationalization configuration
+- `/public`: Static assets
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
