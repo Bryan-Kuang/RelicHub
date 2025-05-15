@@ -1,7 +1,9 @@
+"use client";
+
 import React, { useState, useRef } from "react";
 import { Form, Input, Button, message, Divider } from "antd";
 import { useTranslation } from "react-i18next";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import {
   initRecaptchaVerifier,
   sendVerificationCode,

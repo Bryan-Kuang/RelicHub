@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { Form, Input, Button, Radio, message } from "antd";
 import { useTranslation } from "react-i18next";

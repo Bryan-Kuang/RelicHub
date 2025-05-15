@@ -40,9 +40,19 @@ NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID=您的测量ID
 npm install
 ```
 
-### 4. 初始化数据库
+### 4. 配置 Firebase 权限并初始化数据库
 
-运行以下命令创建超级管理员账户和示例产品：
+由于 Firebase 安全规则默认不允许读写操作，您需要先配置权限：
+
+1. 请参考 `firebase-setup-guide.md` 文件中的详细说明来配置 Firestore 安全规则
+2. 在 Firebase 控制台中手动创建第一个管理员用户
+3. 然后运行以下命令添加示例产品：
+
+```bash
+npm run init-products
+```
+
+如果您已经正确配置了安全规则，也可以尝试使用原始脚本创建管理员和产品：
 
 ```bash
 npm run init-firebase +您的手机号码

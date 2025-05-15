@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import { Layout, Menu, Button, Spin } from "antd";
 import {
