@@ -1,0 +1,171 @@
+import Link from "next/link";
+import Image from "next/image";
+import { prisma } from "@/lib/db";
+import ProductCard from "@/components/ProductCard";
+
+async function getFeaturedProducts() {
+  try {
+    return await prisma.product.findMany({
+      where: { featured: true },
+      take: 6,
+      include: { category: true },
+    });
+  } catch (error) {
+    console.error("获取精选产品失败:", error);
+    return [];
+  }
+}
+
+export default async function Home() {
+  const featuredProducts = await getFeaturedProducts();
+
+  return (
+    <div className="flex flex-col">
+      {/* 英雄区域 */}
+      <section className="relative h-[70vh] flex items-center justify-center bg-amber-900 overflow-hidden">
+        <div className="absolute inset-0 bg-black opacity-40 z-10"></div>
+        <div className="relative z-20 text-center text-white px-4">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+            探索古玩珍品的世界
+          </h1>
+          <p className="text-xl md:text-2xl mb-8">收藏历史，传承文化</p>
+          <Link
+            href="/products"
+            className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+          >
+            浏览藏品
+          </Link>
+        </div>
+        <div className="absolute inset-0 z-0">
+          <div className="w-full h-full bg-[url('/hero-bg.jpg')] bg-cover bg-center"></div>
+        </div>
+      </section>
+
+      {/* 关于我们 */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-amber-900">关于古玩珍藏</h2>
+            <div className="mt-2 h-1 w-20 bg-amber-600 mx-auto"></div>
+          </div>
+          <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+              <p className="text-lg text-gray-700 mb-4">
+                古玩珍藏是一个专注于中国传统文化艺术品的精选平台。我们致力于为收藏爱好者提供优质的古玩藏品，包括瓷器、书画、玉器、铜器等多种类别。
+              </p>
+              <p className="text-lg text-gray-700 mb-4">
+                每一件藏品都经过专业鉴定，确保其真实性和价值。我们希望通过这个平台，让更多人了解中国传统文化的魅力，感受古人智慧的结晶。
+              </p>
+              <Link
+                href="/categories"
+                className="inline-block mt-4 text-amber-700 font-medium hover:text-amber-800"
+              >
+                了解更多 &rarr;
+              </Link>
+            </div>
+            <div className="relative h-80 rounded-lg overflow-hidden shadow-xl">
+              <div className="w-full h-full bg-[url('/about-image.jpg')] bg-cover bg-center"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 精选藏品 */}
+      <section className="py-16 bg-amber-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-amber-900">精选藏品</h2>
+            <div className="mt-2 h-1 w-20 bg-amber-600 mx-auto"></div>
+            <p className="mt-4 text-lg text-gray-700">
+              发现我们精心挑选的珍贵古玩藏品
+            </p>
+          </div>
+
+          {featuredProducts.length > 0 ? (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {featuredProducts.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-gray-500">暂无精选藏品</p>
+          )}
+
+          <div className="text-center mt-10">
+            <Link
+              href="/products"
+              className="bg-amber-700 hover:bg-amber-800 text-white font-medium py-2 px-6 rounded-md transition-colors"
+            >
+              查看全部藏品
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 收藏分类 */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-amber-900">藏品分类</h2>
+            <div className="mt-2 h-1 w-20 bg-amber-600 mx-auto"></div>
+            <p className="mt-4 text-lg text-gray-700">
+              按类别浏览我们的古玩藏品
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <Link
+              href="/categories/ceramics"
+              className="group relative h-40 rounded-lg overflow-hidden shadow-md"
+            >
+              <div className="absolute inset-0 bg-[url('/category-ceramics.jpg')] bg-cover bg-center group-hover:scale-110 transition-transform duration-300"></div>
+              <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all"></div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-white text-xl font-bold">瓷器</span>
+              </div>
+            </Link>
+            <Link
+              href="/categories/jade"
+              className="group relative h-40 rounded-lg overflow-hidden shadow-md"
+            >
+              <div className="absolute inset-0 bg-[url('/category-jade.jpg')] bg-cover bg-center group-hover:scale-110 transition-transform duration-300"></div>
+              <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all"></div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-white text-xl font-bold">玉器</span>
+              </div>
+            </Link>
+            <Link
+              href="/categories/painting"
+              className="group relative h-40 rounded-lg overflow-hidden shadow-md"
+            >
+              <div className="absolute inset-0 bg-[url('/category-painting.jpg')] bg-cover bg-center group-hover:scale-110 transition-transform duration-300"></div>
+              <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all"></div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-white text-xl font-bold">书画</span>
+              </div>
+            </Link>
+            <Link
+              href="/categories/bronze"
+              className="group relative h-40 rounded-lg overflow-hidden shadow-md"
+            >
+              <div className="absolute inset-0 bg-[url('/category-bronze.jpg')] bg-cover bg-center group-hover:scale-110 transition-transform duration-300"></div>
+              <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all"></div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <span className="text-white text-xl font-bold">铜器</span>
+              </div>
+            </Link>
+          </div>
+
+          <div className="text-center mt-10">
+            <Link
+              href="/categories"
+              className="text-amber-700 font-medium hover:text-amber-800"
+            >
+              查看全部分类 &rarr;
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
