@@ -22,8 +22,15 @@ async function getProduct(id: string) {
   }
 }
 
-export default async function ProductPage({ params }: ProductPageProps) {
-  const product = await getProduct(params.id);
+// 完全重写页面组件以解决params问题
+export default async function ProductPage(props: ProductPageProps) {
+  // 先解构params，然后再使用id
+  const { params } = props;
+  // 明确将id提取为单独变量
+  const id = String(params.id);
+
+  // 查询产品信息
+  const product = await getProduct(id);
 
   if (!product) {
     notFound();

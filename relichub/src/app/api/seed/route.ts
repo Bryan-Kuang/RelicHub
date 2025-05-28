@@ -53,7 +53,8 @@ export async function GET(req: NextRequest) {
           name: "明代青花瓷花瓶",
           description: "明代青花瓷器，保存完好，纹饰清晰，具有很高的收藏价值。",
           price: 15000,
-          imageUrl: "/products/vase.jpg",
+          imageUrl:
+            "https://images.unsplash.com/photo-1609771100492-0a700a8bfd9e?w=600&q=80",
           amazonUrl: "https://www.amazon.com/dp/example1",
           categoryId: categories[0].id,
           featured: true,
@@ -64,7 +65,8 @@ export async function GET(req: NextRequest) {
           name: "清代和田玉摆件",
           description: "清代和田玉雕刻，玉质温润，雕工精细，保存状态良好。",
           price: 8800,
-          imageUrl: "/products/jade.jpg",
+          imageUrl:
+            "https://images.unsplash.com/photo-1621208057783-ac647e56cb4c?w=600&q=80",
           amazonUrl: "https://www.amazon.com/dp/example2",
           categoryId: categories[1].id,
           featured: true,

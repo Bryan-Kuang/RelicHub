@@ -24,8 +24,11 @@ async function getCategory(id: string) {
   }
 }
 
-export default async function CategoryPage({ params }: CategoryPageProps) {
-  const category = await getCategory(params.id);
+export default async function CategoryPage(props: CategoryPageProps) {
+  const { params } = props;
+  const id = String(params.id);
+
+  const category = await getCategory(id);
 
   if (!category) {
     notFound();

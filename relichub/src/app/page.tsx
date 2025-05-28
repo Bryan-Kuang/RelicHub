@@ -37,7 +37,7 @@ export default async function Home() {
           </Link>
         </div>
         <div className="absolute inset-0 z-0">
-          <div className="w-full h-full bg-[url('/hero-bg.jpg')] bg-cover bg-center"></div>
+          <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1639148409279-e691156a2809?w=1200&q=80')] bg-cover bg-center"></div>
         </div>
       </section>
 
@@ -64,7 +64,7 @@ export default async function Home() {
               </Link>
             </div>
             <div className="relative h-80 rounded-lg overflow-hidden shadow-xl">
-              <div className="w-full h-full bg-[url('/about-image.jpg')] bg-cover bg-center"></div>
+              <div className="w-full h-full bg-[url('https://images.unsplash.com/photo-1518998053901-5348d3961a04?w=800&q=80')] bg-cover bg-center"></div>
             </div>
           </div>
         </div>
@@ -118,7 +118,7 @@ export default async function Home() {
               href="/categories/ceramics"
               className="group relative h-40 rounded-lg overflow-hidden shadow-md"
             >
-              <div className="absolute inset-0 bg-[url('/category-ceramics.jpg')] bg-cover bg-center group-hover:scale-110 transition-transform duration-300"></div>
+              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1516467716199-601c63cfa8ff?w=600&q=80')] bg-cover bg-center group-hover:scale-110 transition-transform duration-300"></div>
               <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all"></div>
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="text-white text-xl font-bold">瓷器</span>
@@ -128,7 +128,7 @@ export default async function Home() {
               href="/categories/jade"
               className="group relative h-40 rounded-lg overflow-hidden shadow-md"
             >
-              <div className="absolute inset-0 bg-[url('/category-jade.jpg')] bg-cover bg-center group-hover:scale-110 transition-transform duration-300"></div>
+              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1541888758521-400c6c172baf?w=600&q=80')] bg-cover bg-center group-hover:scale-110 transition-transform duration-300"></div>
               <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all"></div>
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="text-white text-xl font-bold">玉器</span>
@@ -138,7 +138,7 @@ export default async function Home() {
               href="/categories/painting"
               className="group relative h-40 rounded-lg overflow-hidden shadow-md"
             >
-              <div className="absolute inset-0 bg-[url('/category-painting.jpg')] bg-cover bg-center group-hover:scale-110 transition-transform duration-300"></div>
+              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1583684977172-528983104f31?w=600&q=80')] bg-cover bg-center group-hover:scale-110 transition-transform duration-300"></div>
               <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all"></div>
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="text-white text-xl font-bold">书画</span>
@@ -148,7 +148,7 @@ export default async function Home() {
               href="/categories/bronze"
               className="group relative h-40 rounded-lg overflow-hidden shadow-md"
             >
-              <div className="absolute inset-0 bg-[url('/category-bronze.jpg')] bg-cover bg-center group-hover:scale-110 transition-transform duration-300"></div>
+              <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1584283367830-3a0d1a97d66e?w=600&q=80')] bg-cover bg-center group-hover:scale-110 transition-transform duration-300"></div>
               <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-all"></div>
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="text-white text-xl font-bold">铜器</span>
