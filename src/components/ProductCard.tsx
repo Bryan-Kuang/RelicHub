@@ -57,7 +57,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             ¥{product.price.toLocaleString()}
           </span>
           <Link
-            href={`/${locale}/products/${product.id}`}
+            href={`/products/${product.id}`}
             className="bg-amber-700 text-white px-3 py-1 rounded-md text-sm hover:bg-amber-800 transition-colors"
           >
             {t("viewDetails")}

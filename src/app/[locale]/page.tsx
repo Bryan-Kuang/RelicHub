@@ -57,7 +57,7 @@ export default async function Home({ params }: Props) {
           </h1>
           <p className="text-xl md:text-2xl mb-8">{t.hero.subtitle}</p>
           <Link
-            href={`/${locale}/products`}
+            href="/products"
             className="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
           >
             {t.hero.cta}
@@ -86,7 +86,7 @@ export default async function Home({ params }: Props) {
                 {t.about.description2}
               </p>
               <Link
-                href={`/${locale}/categories`}
+                href="/categories"
                 className="inline-block mt-4 text-amber-700 font-medium hover:text-amber-800"
               >
                 {t.about.learnMore} &rarr;
@@ -122,7 +122,7 @@ export default async function Home({ params }: Props) {
 
           <div className="text-center mt-10">
             <Link
-              href={`/${locale}/products`}
+              href="/products"
               className="bg-amber-700 hover:bg-amber-800 text-white font-medium py-2 px-6 rounded-md transition-colors"
             >
               {t.featured.viewAll}
@@ -146,7 +146,7 @@ export default async function Home({ params }: Props) {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <Link
-              href={`/${locale}/categories/ceramics`}
+              href="/categories/ceramics"
               className="group relative h-40 rounded-lg overflow-hidden shadow-md"
             >
               <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1516467716199-601c63cfa8ff?w=600&q=80')] bg-cover bg-center group-hover:scale-110 transition-transform duration-300"></div>
@@ -158,7 +158,7 @@ export default async function Home({ params }: Props) {
               </div>
             </Link>
             <Link
-              href={`/${locale}/categories/jade`}
+              href="/categories/jade"
               className="group relative h-40 rounded-lg overflow-hidden shadow-md"
             >
               <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1541888758521-400c6c172baf?w=600&q=80')] bg-cover bg-center group-hover:scale-110 transition-transform duration-300"></div>
@@ -170,7 +170,7 @@ export default async function Home({ params }: Props) {
               </div>
             </Link>
             <Link
-              href={`/${locale}/categories/painting`}
+              href="/categories/painting"
               className="group relative h-40 rounded-lg overflow-hidden shadow-md"
             >
               <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1583684977172-528983104f31?w=600&q=80')] bg-cover bg-center group-hover:scale-110 transition-transform duration-300"></div>
@@ -182,7 +182,7 @@ export default async function Home({ params }: Props) {
               </div>
             </Link>
             <Link
-              href={`/${locale}/categories/bronze`}
+              href="/categories/bronze"
               className="group relative h-40 rounded-lg overflow-hidden shadow-md"
             >
               <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1584283367830-3a0d1a97d66e?w=600&q=80')] bg-cover bg-center group-hover:scale-110 transition-transform duration-300"></div>
@@ -197,7 +197,7 @@ export default async function Home({ params }: Props) {
 
           <div className="text-center mt-10">
             <Link
-              href={`/${locale}/categories`}
+              href="/categories"
               className="text-amber-700 font-medium hover:text-amber-800"
             >
               {t.categories.viewAll} &rarr;

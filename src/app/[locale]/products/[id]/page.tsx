@@ -110,7 +110,7 @@ export default async function ProductDetailPage({ params }: Props) {
           <p className="text-sm text-gray-500 mb-4">
             {locale === "zh" ? "分类：" : "Category: "}
             <Link
-              href={`/${locale}/categories/${product.categoryId}`}
+              href={`/categories/${product.categoryId}`}
               className="text-amber-700 hover:underline"
             >
               {product.category.name}
@@ -180,7 +180,7 @@ export default async function ProductDetailPage({ params }: Props) {
                       ¥{relatedProduct.price.toLocaleString()}
                     </span>
                     <Link
-                      href={`/${locale}/products/${relatedProduct.id}`}
+                      href={`/products/${relatedProduct.id}`}
                       className="bg-amber-700 text-white px-3 py-1 rounded-md text-sm hover:bg-amber-800 transition-colors"
                     >
                       {t.viewDetails}

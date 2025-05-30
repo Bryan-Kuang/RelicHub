@@ -1,13 +1,16 @@
 import { redirect } from "next/navigation";
-import Link from "next/link";
+import { Link } from "@/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
-export default async function AdminLayout({
-  children,
-}: {
+type Props = {
   children: React.ReactNode;
-}) {
+  params: { locale: string };
+};
+
+export default async function AdminLayout({ children, params }: Props) {
+  const resolvedParams = await Promise.resolve(params);
+  const { locale } = resolvedParams;
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user.isAdmin) {
@@ -21,26 +24,26 @@ export default async function AdminLayout({
           <div className="md:col-span-1">
             <div className="bg-white rounded-lg shadow p-4">
               <h2 className="text-xl font-bold text-amber-900 mb-4">
-                管理菜单
+                {locale === "zh" ? "管理菜单" : "Admin Menu"}
               </h2>
               <nav className="space-y-1">
                 <Link
                   href="/admin"
                   className="block px-3 py-2 rounded-md hover:bg-amber-100 text-amber-800"
                 >
-                  控制面板
+                  {locale === "zh" ? "控制面板" : "Dashboard"}
                 </Link>
                 <Link
                   href="/admin/products"
                   className="block px-3 py-2 rounded-md hover:bg-amber-100 text-amber-800"
                 >
-                  管理藏品
+                  {locale === "zh" ? "管理藏品" : "Manage Products"}
                 </Link>
                 <Link
                   href="/admin/categories"
                   className="block px-3 py-2 rounded-md hover:bg-amber-100 text-amber-800"
                 >
-                  管理分类
+                  {locale === "zh" ? "管理分类" : "Manage Categories"}
                 </Link>
               </nav>
             </div>

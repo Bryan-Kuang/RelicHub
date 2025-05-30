@@ -2,89 +2,33 @@
 
 import { useTranslations } from "next-intl";
 import { useLocale } from "next-intl";
-import { Link, usePathname, useRouter } from "@/navigation";
+import { Link, usePathname } from "@/navigation";
 import { signOut, useSession } from "next-auth/react";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 
 export default function Navbar() {
   const { data: session } = useSession();
   const pathname = usePathname();
-  const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("navigation");
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
-
-  // 创建引用用于追踪下拉菜单DOM元素
-  const langMenuRef = useRef<HTMLDivElement>(null);
-  const langButtonRef = useRef<HTMLButtonElement>(null);
 
   // 切换主菜单
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-    if (isLangMenuOpen) setIsLangMenuOpen(false);
   };
 
-  // 切换语言菜单
-  const toggleLangMenu = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation(); // 防止事件冒泡
-    setIsLangMenuOpen(!isLangMenuOpen);
-    if (isMenuOpen) setIsMenuOpen(false);
+  // 语言切换函数
+  const handleLanguageChange = (newLocale: string) => {
+    if (locale === newLocale) return;
+
+    const currentPath = pathname.startsWith(`/${locale}`)
+      ? pathname.slice(locale.length + 1)
+      : pathname;
+
+    window.location.href = `/${newLocale}${currentPath || ""}`;
   };
-
-  // 切换语言 - 基于next-intl 4.x优化
-  const switchLanguage = (newLocale: string) => {
-    if (locale === newLocale) {
-      setIsLangMenuOpen(false);
-      return;
-    }
-
-    // 设置cookie以确保语言切换正确
-    const days = 30;
-    const date = new Date();
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    const expires = date.toUTCString();
-    document.cookie = `NEXT_LOCALE=${newLocale};expires=${expires};path=/`;
-
-    // 使用router.push跳转到新语言的页面
-    try {
-      // 强制刷新页面以确保完全切换语言
-      window.location.href = `/${newLocale}${
-        pathname.startsWith(`/${locale}`)
-          ? pathname.slice(locale.length + 1)
-          : pathname
-      }`;
-    } catch (error) {
-      console.error("语言切换错误:", error);
-    }
-
-    // 关闭语言菜单
-    setIsLangMenuOpen(false);
-  };
-
-  // 点击其他地方关闭下拉菜单
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        langMenuRef.current &&
-        langButtonRef.current &&
-        !langMenuRef.current.contains(event.target as Node) &&
-        !langButtonRef.current.contains(event.target as Node)
-      ) {
-        setIsLangMenuOpen(false);
-      }
-    }
-
-    // 添加全局点击事件监听器
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      // 清理事件监听器
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   return (
     <nav className="bg-amber-800 text-white shadow-md relative z-30">
@@ -177,91 +121,32 @@ export default function Navbar() {
               </>
             )}
 
-            {/* 语言切换下拉菜单 */}
-            <div className="relative ml-3">
-              <button
-                ref={langButtonRef}
-                onClick={toggleLangMenu}
-                type="button"
-                className="px-3 py-2 rounded-md text-sm font-medium hover:bg-amber-700 flex items-center"
+            {/* 语言切换原生下拉菜单 */}
+            <div className="ml-3">
+              <select
+                value={locale}
+                onChange={(e) => handleLanguageChange(e.target.value)}
+                className="bg-amber-700 hover:bg-amber-600 text-white border border-amber-600 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
               >
-                <span className="mr-1">
-                  {locale === "zh" ? "中文" : "English"}
-                </span>
-                <svg
-                  className="h-4 w-4"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d={isLangMenuOpen ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}
-                  />
-                </svg>
-              </button>
-
-              {isLangMenuOpen && (
-                <div
-                  ref={langMenuRef}
-                  className="absolute right-0 mt-2 w-36 rounded-md shadow-2xl bg-white ring-1 ring-black ring-opacity-5 z-50"
-                >
-                  <div className="py-1">
-                    <button
-                      onClick={() => switchLanguage("en")}
-                      type="button"
-                      className={`block w-full text-left px-4 py-2 text-sm ${
-                        locale === "en"
-                          ? "bg-gray-100 text-gray-900"
-                          : "text-gray-700"
-                      } hover:bg-gray-100`}
-                    >
-                      English
-                    </button>
-                    <button
-                      onClick={() => switchLanguage("zh")}
-                      type="button"
-                      className={`block w-full text-left px-4 py-2 text-sm ${
-                        locale === "zh"
-                          ? "bg-gray-100 text-gray-900"
-                          : "text-gray-700"
-                      } hover:bg-gray-100`}
-                    >
-                      中文
-                    </button>
-                  </div>
-                </div>
-              )}
+                <option value="en">English</option>
+                <option value="zh">中文</option>
+              </select>
             </div>
           </div>
 
           {/* 移动端菜单按钮 */}
           <div className="md:hidden flex items-center">
-            {/* 移动端语言切换按钮 */}
-            <button
-              ref={langButtonRef}
-              onClick={toggleLangMenu}
-              type="button"
-              className="p-2 rounded-md text-white hover:bg-amber-700 mr-2"
-            >
-              <svg
-                className="h-6 w-6"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+            {/* 移动端语言切换 */}
+            <div className="mr-2">
+              <select
+                value={locale}
+                onChange={(e) => handleLanguageChange(e.target.value)}
+                className="bg-amber-700 text-white border border-amber-600 rounded-md px-2 py-1 text-sm focus:outline-none"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"
-                />
-              </svg>
-            </button>
+                <option value="en">EN</option>
+                <option value="zh">中文</option>
+              </select>
+            </div>
 
             <button
               onClick={toggleMenu}
@@ -295,45 +180,6 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-
-      {/* 移动端语言菜单 */}
-      {isLangMenuOpen && (
-        <div
-          className="md:hidden fixed inset-0 z-50"
-          onClick={() => setIsLangMenuOpen(false)}
-        >
-          <div
-            ref={langMenuRef}
-            className="absolute top-16 right-4 w-40 rounded-md shadow-2xl bg-white"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="py-2 divide-y divide-gray-100">
-              <button
-                onClick={() => switchLanguage("en")}
-                type="button"
-                className={`block w-full text-left px-4 py-3 text-sm ${
-                  locale === "en"
-                    ? "bg-gray-100 text-gray-900"
-                    : "text-gray-700"
-                } hover:bg-gray-100`}
-              >
-                English
-              </button>
-              <button
-                onClick={() => switchLanguage("zh")}
-                type="button"
-                className={`block w-full text-left px-4 py-3 text-sm ${
-                  locale === "zh"
-                    ? "bg-gray-100 text-gray-900"
-                    : "text-gray-700"
-                } hover:bg-gray-100`}
-              >
-                中文
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* 移动端主菜单 */}
       {isMenuOpen && (

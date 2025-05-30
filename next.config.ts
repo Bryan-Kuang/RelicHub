@@ -6,7 +6,6 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ["images.unsplash.com"],
     remotePatterns: [
       {
         protocol: "https",
@@ -15,6 +14,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // 移除过时的domains配置，使用remotePatterns
+  // 生产环境优化
+  compress: true,
+  poweredByHeader: false,
+  generateEtags: false,
   // Turbopack支持配置
   experimental: {
     turbo: {

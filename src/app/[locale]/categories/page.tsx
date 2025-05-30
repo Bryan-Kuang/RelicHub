@@ -65,7 +65,7 @@ export default async function CategoriesPage({ params }: Props) {
         {categories.map((category) => (
           <Link
             key={category.id}
-            href={`/${locale}/categories/${category.id}`}
+            href={`/categories/${category.id}`}
             className="group block bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow"
           >
             <div className="relative h-48">

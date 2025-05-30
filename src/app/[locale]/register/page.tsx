@@ -35,7 +35,7 @@ export default function RegisterPage() {
       }
 
       // 注册成功，跳转到登录页面
-      router.push(`/${locale}/login`);
+      router.push("/login");
     } catch (error) {
       if (error instanceof Error) {
         setError(error.message);
@@ -135,10 +135,7 @@ export default function RegisterPage() {
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-600">
             {locale === "zh" ? "已有账号？" : "Already have an account? "}
-            <Link
-              href={`/${locale}/login`}
-              className="text-amber-700 hover:underline"
-            >
+            <Link href="/login" className="text-amber-700 hover:underline">
               {locale === "zh" ? "登录" : "Login"}
             </Link>
           </p>

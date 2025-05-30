@@ -29,7 +29,7 @@ export default function LoginPage() {
       if (result?.error) {
         setError(result.error);
       } else {
-        router.push(`/${locale}`);
+        router.push("/");
       }
     } catch (error) {
       setError("登录失败，请重试");
@@ -107,10 +107,7 @@ export default function LoginPage() {
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-600">
             {locale === "zh" ? "还没有账号？" : "Don't have an account? "}
-            <Link
-              href={`/${locale}/register`}
-              className="text-amber-700 hover:underline"
-            >
+            <Link href="/register" className="text-amber-700 hover:underline">
               {locale === "zh" ? "注册" : "Register"}
             </Link>
           </p>
