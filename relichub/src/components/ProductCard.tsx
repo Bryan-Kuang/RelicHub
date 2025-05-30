@@ -1,7 +1,9 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/navigation";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 
 interface ProductCardProps {
   product: {
@@ -16,6 +18,9 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
+  const t = useTranslations("products");
+  const locale = useLocale();
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
       <div className="relative h-48">
@@ -29,12 +34,14 @@ export default function ProductCard({ product }: ProductCardProps) {
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-200">
-            <span className="text-gray-500">无图片</span>
+            <span className="text-gray-500">
+              {locale === "zh" ? "无图片" : "No Image"}
+            </span>
           </div>
         )}
         {product.featured && (
           <span className="absolute top-2 right-2 bg-amber-600 text-white text-xs px-2 py-1 rounded-full">
-            精选
+            {locale === "zh" ? "精选" : "Featured"}
           </span>
         )}
       </div>
@@ -50,10 +57,10 @@ export default function ProductCard({ product }: ProductCardProps) {
             ¥{product.price.toLocaleString()}
           </span>
           <Link
-            href={`/products/${product.id}`}
+            href={`/${locale}/products/${product.id}`}
             className="bg-amber-700 text-white px-3 py-1 rounded-md text-sm hover:bg-amber-800 transition-colors"
           >
-            查看详情
+            {t("viewDetails")}
           </Link>
         </div>
       </div>

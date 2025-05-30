@@ -1,32 +1,35 @@
 import { NextRequest, NextResponse } from "next/server";
 import { hash } from "bcryptjs";
 import { prisma } from "@/lib/db";
+import bcrypt from "bcryptjs";
 
-export async function POST(req: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const { name, email, password } = await req.json();
+    const body = await request.json();
+    const { name, email, password } = body;
 
-    // 检查必填字段
+    // 验证输入
     if (!name || !email || !password) {
       return NextResponse.json(
-        { error: "姓名、电子邮件和密码为必填项" },
+        { error: "Name, email and password are required" },
         { status: 400 }
       );
     }
 
-    // 检查邮箱是否已被使用
+    // 检查邮箱是否已存在
     const existingUser = await prisma.user.findUnique({
-      where: {
-        email,
-      },
+      where: { email },
     });
 
     if (existingUser) {
-      return NextResponse.json({ error: "该邮箱已被注册" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Email already exists" },
+        { status: 400 }
+      );
     }
 
-    // 加密密码
-    const hashedPassword = await hash(password, 12);
+    // 密码加密
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     // 创建用户
     const user = await prisma.user.create({
@@ -34,20 +37,19 @@ export async function POST(req: NextRequest) {
         name,
         email,
         password: hashedPassword,
+        isAdmin: false, // 默认不是管理员
       },
     });
 
-    // 返回用户信息（不包含密码）
+    // 不返回密码
+    const { password: _, ...userWithoutPassword } = user;
+
     return NextResponse.json(
-      {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        isAdmin: user.isAdmin,
-      },
+      { user: userWithoutPassword, message: "Registration successful" },
       { status: 201 }
     );
   } catch (error) {
-    return NextResponse.json({ error: "注册失败" }, { status: 500 });
+    console.error("Registration error:", error);
+    return NextResponse.json({ error: "Registration failed" }, { status: 500 });
   }
 }

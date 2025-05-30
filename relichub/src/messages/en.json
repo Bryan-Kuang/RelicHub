@@ -1,0 +1,92 @@
+{
+  "navigation": {
+    "home": "Home",
+    "products": "Products",
+    "categories": "Categories",
+    "login": "Login",
+    "register": "Register",
+    "admin": "Admin",
+    "logout": "Logout",
+    "search": "Search..."
+  },
+  "home": {
+    "hero": {
+      "title": "Explore the World of Antique Treasures",
+      "subtitle": "Collect History, Inherit Culture",
+      "cta": "Browse Collection"
+    },
+    "about": {
+      "title": "About RelicHub",
+      "description1": "RelicHub is a platform specializing in traditional Chinese cultural artifacts. We are committed to providing collectors with quality antiques, including ceramics, paintings, jade, bronze and more.",
+      "description2": "Each piece is professionally authenticated to ensure its authenticity and value. Through this platform, we hope to introduce more people to the charm of traditional Chinese culture and experience the wisdom of ancient craftsmen.",
+      "learnMore": "Learn More"
+    },
+    "featured": {
+      "title": "Featured Collections",
+      "subtitle": "Discover our carefully selected precious antique collections",
+      "empty": "No featured items currently",
+      "viewAll": "View All Items"
+    },
+    "categories": {
+      "title": "Collection Categories",
+      "subtitle": "Browse our antique collections by category",
+      "ceramics": "Ceramics",
+      "jade": "Jade",
+      "painting": "Paintings",
+      "bronze": "Bronze",
+      "viewAll": "View All Categories"
+    }
+  },
+  "products": {
+    "title": "All Products",
+    "filter": "Filter",
+    "sort": "Sort",
+    "price": "Price",
+    "category": "Category",
+    "viewDetails": "View Details",
+    "buyOnAmazon": "Buy on Amazon",
+    "relatedProducts": "Related Products",
+    "description": "Description",
+    "noResults": "No products found"
+  },
+  "categories": {
+    "title": "Browse by Category",
+    "products": "products",
+    "viewCategory": "View Category"
+  },
+  "admin": {
+    "dashboard": "Admin Dashboard",
+    "products": "Manage Products",
+    "categories": "Manage Categories",
+    "addProduct": "Add Product",
+    "editProduct": "Edit Product",
+    "addCategory": "Add Category",
+    "editCategory": "Edit Category",
+    "save": "Save",
+    "delete": "Delete",
+    "cancel": "Cancel"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "submit": "Submit",
+    "adminArea": "This is an admin area"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "notFound": "Page not found",
+    "backToHome": "Back to Home"
+  },
+  "footer": {
+    "copyright": "© 2024 RelicHub. All rights reserved.",
+    "about": "About",
+    "contact": "Contact",
+    "terms": "Terms",
+    "privacy": "Privacy"
+  }
+}

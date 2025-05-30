@@ -1,4 +1,8 @@
+import createNextIntlPlugin from "next-intl/plugin";
 import type { NextConfig } from "next";
+
+// 创建next-intl插件
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
   images: {
@@ -11,6 +15,14 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Turbopack支持配置
+  experimental: {
+    turbo: {
+      resolveAlias: {
+        "next-intl/config": "./src/i18n/request.ts",
+      },
+    },
+  },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

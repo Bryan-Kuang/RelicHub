@@ -1,0 +1,92 @@
+{
+  "navigation": {
+    "home": "首页",
+    "products": "藏品",
+    "categories": "分类",
+    "login": "登录",
+    "register": "注册",
+    "admin": "管理",
+    "logout": "退出",
+    "search": "搜索..."
+  },
+  "home": {
+    "hero": {
+      "title": "探索古玩珍品的世界",
+      "subtitle": "收藏历史，传承文化",
+      "cta": "浏览藏品"
+    },
+    "about": {
+      "title": "关于古玩珍藏",
+      "description1": "古玩珍藏是一个专注于中国传统文化艺术品的精选平台。我们致力于为收藏爱好者提供优质的古玩藏品，包括瓷器、书画、玉器、铜器等多种类别。",
+      "description2": "每一件藏品都经过专业鉴定，确保其真实性和价值。我们希望通过这个平台，让更多人了解中国传统文化的魅力，感受古人智慧的结晶。",
+      "learnMore": "了解更多"
+    },
+    "featured": {
+      "title": "精选藏品",
+      "subtitle": "发现我们精心挑选的珍贵古玩藏品",
+      "empty": "暂无精选藏品",
+      "viewAll": "查看全部藏品"
+    },
+    "categories": {
+      "title": "藏品分类",
+      "subtitle": "按类别浏览我们的古玩藏品",
+      "ceramics": "瓷器",
+      "jade": "玉器",
+      "painting": "书画",
+      "bronze": "铜器",
+      "viewAll": "查看全部分类"
+    }
+  },
+  "products": {
+    "title": "全部藏品",
+    "filter": "筛选",
+    "sort": "排序",
+    "price": "价格",
+    "category": "分类",
+    "viewDetails": "查看详情",
+    "buyOnAmazon": "在亚马逊购买",
+    "relatedProducts": "相关藏品",
+    "description": "详细描述",
+    "noResults": "未找到藏品"
+  },
+  "categories": {
+    "title": "按分类浏览",
+    "products": "件藏品",
+    "viewCategory": "查看分类"
+  },
+  "admin": {
+    "dashboard": "管理控制台",
+    "products": "管理藏品",
+    "categories": "管理分类",
+    "addProduct": "添加藏品",
+    "editProduct": "编辑藏品",
+    "addCategory": "添加分类",
+    "editCategory": "编辑分类",
+    "save": "保存",
+    "delete": "删除",
+    "cancel": "取消"
+  },
+  "auth": {
+    "login": "登录",
+    "register": "注册",
+    "email": "邮箱",
+    "password": "密码",
+    "name": "姓名",
+    "submit": "提交",
+    "adminArea": "管理员专区"
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "发生错误",
+    "success": "成功",
+    "notFound": "页面未找到",
+    "backToHome": "返回首页"
+  },
+  "footer": {
+    "copyright": "© 2024 古玩珍藏。保留所有权利。",
+    "about": "关于我们",
+    "contact": "联系我们",
+    "terms": "服务条款",
+    "privacy": "隐私政策"
+  }
+}
