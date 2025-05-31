@@ -4,9 +4,8 @@
   "regions": ["hkg1", "sin1"],
   "env": {
     "DEMO_MODE": "true",
-    "DATABASE_URL": "@database_url",
-    "NEXTAUTH_SECRET": "@nextauth_secret",
-    "NEXTAUTH_URL": "@nextauth_url"
+    "NEXTAUTH_SECRET": "demo-secret-key-for-presentation-only",
+    "NEXTAUTH_URL": "https://relichub-demo.vercel.app"
   },
   "functions": {
     "src/app/api/**/*.ts": {
