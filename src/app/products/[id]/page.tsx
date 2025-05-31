@@ -1,20 +1,17 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { prisma } from "@/lib/db";
+import { productAdapter } from "@/lib/demo-adapter";
 
-interface ProductPageProps {
-  params: {
+type Props = {
+  params: Promise<{
     id: string;
-  };
-}
+  }>;
+};
 
 async function getProduct(id: string) {
   try {
-    const product = await prisma.product.findUnique({
-      where: { id },
-      include: { category: true },
-    });
+    const product = await productAdapter.findUnique(id);
     return product;
   } catch (error) {
     console.error("获取产品详情失败:", error);
@@ -22,14 +19,11 @@ async function getProduct(id: string) {
   }
 }
 
-// 完全重写页面组件以解决params问题
-export default async function ProductPage(props: ProductPageProps) {
-  // 先解构params，然后再使用id
+export default async function ProductPage(props: Props) {
   const { params } = props;
-  // 明确将id提取为单独变量
-  const id = String(params.id);
+  const resolvedParams = await params;
+  const id = String(resolvedParams.id);
 
-  // 查询产品信息
   const product = await getProduct(id);
 
   if (!product) {

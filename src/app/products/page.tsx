@@ -55,8 +55,9 @@ export default async function ProductsPage({ searchParams }: Props) {
         {search && (
           <div className="mb-6 text-center">
             <p className="text-gray-700">
-              搜索 "<span className="font-medium text-amber-800">{search}</span>
-              " 的结果：
+              搜索 &ldquo;
+              <span className="font-medium text-amber-800">{search}</span>
+              &rdquo; 的结果：
               {products.length > 0
                 ? `找到 ${products.length} 件藏品`
                 : "未找到匹配藏品"}

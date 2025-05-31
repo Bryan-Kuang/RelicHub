@@ -6,12 +6,13 @@ import { authOptions } from "@/lib/auth";
 // 获取单个产品详情
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const resolvedParams = await params;
     const product = await prisma.product.findUnique({
       where: {
-        id: params.id,
+        id: resolvedParams.id,
       },
       include: {
         category: true,
@@ -31,7 +32,7 @@ export async function GET(
 // 更新产品
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -40,20 +41,23 @@ export async function PUT(
       return NextResponse.json({ error: "未授权" }, { status: 401 });
     }
 
+    const resolvedParams = await params;
     const data = await req.json();
-
     const product = await prisma.product.update({
       where: {
-        id: params.id,
+        id: resolvedParams.id,
       },
       data: {
         name: data.name,
         description: data.description,
-        price: data.price,
+        price: parseFloat(data.price),
         imageUrl: data.imageUrl,
         amazonUrl: data.amazonUrl,
         categoryId: data.categoryId,
         featured: data.featured,
+      },
+      include: {
+        category: true,
       },
     });
 
@@ -66,7 +70,7 @@ export async function PUT(
 // 删除产品
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -75,9 +79,10 @@ export async function DELETE(
       return NextResponse.json({ error: "未授权" }, { status: 401 });
     }
 
+    const resolvedParams = await params;
     await prisma.product.delete({
       where: {
-        id: params.id,
+        id: resolvedParams.id,
       },
     });
 

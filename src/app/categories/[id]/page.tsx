@@ -1,22 +1,17 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { prisma } from "@/lib/db";
+import { categoryAdapter, productAdapter } from "@/lib/demo-adapter";
 import ProductCard from "@/components/ProductCard";
 
-interface CategoryPageProps {
-  params: {
+type Props = {
+  params: Promise<{
     id: string;
-  };
-}
+  }>;
+};
 
 async function getCategory(id: string) {
   try {
-    const category = await prisma.category.findUnique({
-      where: { id },
-      include: {
-        products: true,
-      },
-    });
+    const category = await categoryAdapter.findUnique(id);
     return category;
   } catch (error) {
     console.error("获取类别详情失败:", error);
@@ -24,15 +19,31 @@ async function getCategory(id: string) {
   }
 }
 
-export default async function CategoryPage(props: CategoryPageProps) {
+async function getCategoryProducts(categoryId: string) {
+  try {
+    return await productAdapter.findMany({
+      where: { categoryId },
+      include: { category: true },
+    });
+  } catch (error) {
+    console.error("获取分类产品失败:", error);
+    return [];
+  }
+}
+
+export default async function CategoryPage(props: Props) {
   const { params } = props;
-  const id = String(params.id);
+  const resolvedParams = await params;
+  const id = String(resolvedParams.id);
 
   const category = await getCategory(id);
 
   if (!category) {
     notFound();
   }
+
+  // 获取该分类下的产品
+  const categoryProducts = await getCategoryProducts(category.id);
 
   return (
     <div className="bg-amber-50 py-12">
@@ -45,9 +56,9 @@ export default async function CategoryPage(props: CategoryPageProps) {
           )}
         </div>
 
-        {category.products.length > 0 ? (
+        {categoryProducts.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {category.products.map((product) => (
+            {categoryProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
           </div>

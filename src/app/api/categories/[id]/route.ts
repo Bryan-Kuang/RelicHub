@@ -6,12 +6,13 @@ import { authOptions } from "@/lib/auth";
 // 获取单个类别详情
 export async function GET(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const resolvedParams = await params;
     const category = await prisma.category.findUnique({
       where: {
-        id: params.id,
+        id: resolvedParams.id,
       },
       include: {
         products: true,
@@ -31,7 +32,7 @@ export async function GET(
 // 更新类别
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -40,10 +41,11 @@ export async function PUT(
       return NextResponse.json({ error: "未授权" }, { status: 401 });
     }
 
+    const resolvedParams = await params;
     const data = await req.json();
     const category = await prisma.category.update({
       where: {
-        id: params.id,
+        id: resolvedParams.id,
       },
       data: {
         name: data.name,
@@ -60,7 +62,7 @@ export async function PUT(
 // 删除类别
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -69,10 +71,11 @@ export async function DELETE(
       return NextResponse.json({ error: "未授权" }, { status: 401 });
     }
 
+    const resolvedParams = await params;
     // 检查是否有产品关联到此类别
     const productsCount = await prisma.product.count({
       where: {
-        categoryId: params.id,
+        categoryId: resolvedParams.id,
       },
     });
 
@@ -85,7 +88,7 @@ export async function DELETE(
 
     await prisma.category.delete({
       where: {
-        id: params.id,
+        id: resolvedParams.id,
       },
     });
 

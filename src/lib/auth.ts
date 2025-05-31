@@ -33,7 +33,7 @@ export const authOptions: NextAuthOptions = {
                   id: user.id,
                   email: user.email,
                   name: user.name,
-                  isAdmin: user.isAdmin,
+                  isAdmin: Boolean(user.isAdmin),
                 };
               }
             }
@@ -60,7 +60,7 @@ export const authOptions: NextAuthOptions = {
             id: user.id,
             email: user.email,
             name: user.name,
-            isAdmin: user.isAdmin,
+            isAdmin: Boolean(user.isAdmin),
           };
         } catch (error) {
           console.error("Authentication error:", error);
@@ -75,7 +75,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.isAdmin = user.isAdmin;
+        token.isAdmin = Boolean(user.isAdmin);
       }
       return token;
     },

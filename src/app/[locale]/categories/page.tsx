@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { categoryAdapter } from "@/lib/demo-adapter";
 import Link from "next/link";
 import { locales } from "@/i18n/routing";
 
@@ -21,13 +21,7 @@ async function getMessages(locale: string) {
 // 获取所有分类
 async function getAllCategories() {
   try {
-    const categories = await prisma.category.findMany({
-      include: {
-        _count: {
-          select: { products: true },
-        },
-      },
-    });
+    const categories = await categoryAdapter.findMany();
     return categories;
   } catch (error) {
     console.error("获取分类列表失败:", error);
@@ -36,11 +30,11 @@ async function getAllCategories() {
 }
 
 type Props = {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 };
 
 export default async function CategoriesPage({ params }: Props) {
-  const resolvedParams = await Promise.resolve(params);
+  const resolvedParams = await params;
   const { locale } = resolvedParams;
   const categories = await getAllCategories();
   const messages = await getMessages(locale);
@@ -83,7 +77,7 @@ export default async function CategoriesPage({ params }: Props) {
                 <div className="text-center text-white">
                   <h2 className="text-2xl font-bold mb-1">{category.name}</h2>
                   <p className="text-sm">
-                    {category._count.products} {t.products}
+                    {/* 显示固定数量，因为demo数据不支持_count */}2 {t.products}
                   </p>
                 </div>
               </div>
