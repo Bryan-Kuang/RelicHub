@@ -1,7 +1,7 @@
 {
   "name": "relichub",
   "framework": "nextjs",
-  "regions": ["iad1"],
+  "regions": ["hkg1"],
   "env": {
     "DEMO_MODE": "true",
     "DATABASE_URL": "file:./demo.db",
