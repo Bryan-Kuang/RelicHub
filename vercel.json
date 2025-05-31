@@ -4,6 +4,7 @@
   "regions": ["iad1"],
   "env": {
     "DEMO_MODE": "true",
+    "DATABASE_URL": "file:./demo.db",
     "NEXTAUTH_SECRET": "demo-secret-key-for-presentation-only",
     "NEXTAUTH_URL": "https://relichub-demo.vercel.app"
   },
