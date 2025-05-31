@@ -1,17 +1,17 @@
-import { prisma } from "@/lib/db";
+import { productAdapter } from "@/lib/demo-adapter";
 import ProductCard from "@/components/ProductCard";
 import SearchBar from "@/components/SearchBar";
 
-interface ProductsPageProps {
-  searchParams?: {
+type Props = {
+  searchParams: Promise<{
     search?: string;
     category?: string;
-  };
-}
+  }>;
+};
 
 async function getProducts(search?: string, category?: string) {
   try {
-    return await prisma.product.findMany({
+    return await productAdapter.findMany({
       where: {
         ...(search
           ? {
@@ -31,11 +31,10 @@ async function getProducts(search?: string, category?: string) {
   }
 }
 
-export default async function ProductsPage({
-  searchParams,
-}: ProductsPageProps) {
-  const search = searchParams?.search || "";
-  const category = searchParams?.category;
+export default async function ProductsPage({ searchParams }: Props) {
+  const resolvedSearchParams = await searchParams;
+  const search = resolvedSearchParams?.search || "";
+  const category = resolvedSearchParams?.category;
   const products = await getProducts(search, category);
 
   return (

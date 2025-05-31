@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { productAdapter } from "@/lib/demo-adapter";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 import { locales } from "@/i18n/routing";
@@ -22,7 +22,7 @@ async function getMessages(locale: string) {
 // 获取所有产品
 async function getAllProducts() {
   try {
-    return await prisma.product.findMany({
+    return await productAdapter.findMany({
       include: { category: true },
     });
   } catch (error) {
@@ -32,12 +32,12 @@ async function getAllProducts() {
 }
 
 type Props = {
-  params: { locale: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ locale: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export default async function ProductsPage({ params, searchParams }: Props) {
-  const resolvedParams = await Promise.resolve(params);
+  const resolvedParams = await params;
   const { locale } = resolvedParams;
   const products = await getAllProducts();
   const messages = await getMessages(locale);

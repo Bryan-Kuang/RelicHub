@@ -1,4 +1,4 @@
-import { prisma } from "@/lib/db";
+import { categoryAdapter, productAdapter } from "@/lib/demo-adapter";
 import ProductCard from "@/components/ProductCard";
 import { notFound } from "next/navigation";
 import { locales } from "@/i18n/routing";
@@ -22,9 +22,7 @@ async function getMessages(locale: string) {
 // 获取分类详情
 async function getCategory(id: string) {
   try {
-    const category = await prisma.category.findUnique({
-      where: { id },
-    });
+    const category = await categoryAdapter.findUnique(id);
 
     if (!category) {
       return null;
@@ -40,7 +38,7 @@ async function getCategory(id: string) {
 // 获取分类下的产品
 async function getCategoryProducts(categoryId: string) {
   try {
-    return await prisma.product.findMany({
+    return await productAdapter.findMany({
       where: { categoryId },
       include: { category: true },
     });
@@ -51,11 +49,11 @@ async function getCategoryProducts(categoryId: string) {
 }
 
 type Props = {
-  params: { locale: string; id: string };
+  params: Promise<{ locale: string; id: string }>;
 };
 
 export default async function CategoryDetailPage({ params }: Props) {
-  const resolvedParams = await Promise.resolve(params);
+  const resolvedParams = await params;
   const { locale, id } = resolvedParams;
   const category = await getCategory(id);
 

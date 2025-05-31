@@ -1,23 +1,19 @@
-import { prisma } from "@/lib/db";
+import { productAdapter } from "@/lib/demo-adapter";
 import Link from "next/link";
 import Image from "next/image";
 
-interface ProductsPageProps {
-  searchParams?: {
+type Props = {
+  searchParams: Promise<{
     featured?: string;
-  };
-}
+  }>;
+};
 
 async function getProducts(featured?: boolean) {
   try {
-    return await prisma.product.findMany({
+    return await productAdapter.findMany({
       where: featured !== undefined ? { featured } : undefined,
-      include: {
-        category: true,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
+      include: { category: true },
+      orderBy: { createdAt: "desc" },
     });
   } catch (error) {
     console.error("获取产品列表失败:", error);
@@ -25,10 +21,9 @@ async function getProducts(featured?: boolean) {
   }
 }
 
-export default async function AdminProductsPage({
-  searchParams,
-}: ProductsPageProps) {
-  const featured = searchParams?.featured === "true";
+export default async function AdminProductsPage({ searchParams }: Props) {
+  const resolvedSearchParams = await searchParams;
+  const featured = resolvedSearchParams?.featured === "true";
   const products = await getProducts(featured);
 
   return (
