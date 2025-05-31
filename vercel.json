@@ -1,7 +1,7 @@
 {
   "name": "relichub",
   "framework": "nextjs",
-  "regions": ["hkg1", "sin1"],
+  "regions": ["iad1"],
   "env": {
     "DEMO_MODE": "true",
     "NEXTAUTH_SECRET": "demo-secret-key-for-presentation-only",
