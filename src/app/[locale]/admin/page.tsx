@@ -1,37 +1,14 @@
-import { prisma } from "@/lib/db";
 import { Link } from "@/navigation";
-
-async function getDashboardStats() {
-  try {
-    const productsCount = await prisma.product.count();
-    const categoriesCount = await prisma.category.count();
-    const featuredProductsCount = await prisma.product.count({
-      where: { featured: true },
-    });
-
-    return {
-      productsCount,
-      categoriesCount,
-      featuredProductsCount,
-    };
-  } catch (error) {
-    console.error("获取统计数据失败:", error);
-    return {
-      productsCount: 0,
-      categoriesCount: 0,
-      featuredProductsCount: 0,
-    };
-  }
-}
+import { statsAdapter } from "@/lib/demo-adapter";
 
 type Props = {
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 };
 
 export default async function AdminDashboard({ params }: Props) {
-  const resolvedParams = await Promise.resolve(params);
+  const resolvedParams = await params;
   const { locale } = resolvedParams;
-  const stats = await getDashboardStats();
+  const stats = await statsAdapter.getDashboardStats();
 
   return (
     <div>
@@ -118,6 +95,19 @@ export default async function AdminDashboard({ params }: Props) {
                 : "Featured products will be displayed on the homepage to attract more visitors. Make sure to add high-quality images and detailed descriptions for each product to improve conversion rates."}
             </p>
           </div>
+
+          {process.env.DEMO_MODE === "true" && (
+            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 text-yellow-800 mt-4">
+              <p className="text-sm font-medium">
+                🎭 {locale === "zh" ? "演示模式" : "Demo Mode"}
+              </p>
+              <p className="text-sm">
+                {locale === "zh"
+                  ? "当前处于演示模式，所有数据修改仅在会话期间有效，不会永久保存。"
+                  : "Currently in demo mode. All data changes are temporary and will not be permanently saved."}
+              </p>
+            </div>
+          )}
         </div>
       </div>
     </div>

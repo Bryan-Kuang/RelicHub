@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "node scripts/setup-db.js && next dev --turbopack",
     "build": "node scripts/setup-db.js && npx prisma generate && next build",
+    "build:demo": "DEMO_MODE=true next build",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "npx prisma generate",

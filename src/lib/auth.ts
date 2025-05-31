@@ -1,17 +1,17 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { compare } from "bcryptjs";
-import { prisma } from "./db";
+import bcrypt from "bcryptjs";
+import { userAdapter } from "./demo-adapter";
+
+// 检查是否为演示模式
+const isDemoMode = process.env.DEMO_MODE === "true";
 
 export const authOptions: NextAuthOptions = {
-  session: {
-    strategy: "jwt",
-  },
   providers: [
     CredentialsProvider({
-      name: "Email",
+      name: "credentials",
       credentials: {
-        email: { label: "Email", type: "email" },
+        email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
@@ -19,57 +19,76 @@ export const authOptions: NextAuthOptions = {
           return null;
         }
 
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
-        });
+        try {
+          // 演示模式特殊处理
+          if (isDemoMode) {
+            console.log("🎭 演示模式登录验证");
+            // 在演示模式下，直接检查演示用户数据
+            const user = await userAdapter.findUnique(credentials.email, true);
 
-        if (!user) {
+            if (user && user.email === credentials.email) {
+              // 演示模式下简化密码验证（实际项目中不要这样做）
+              if (credentials.password === "password123") {
+                return {
+                  id: user.id,
+                  email: user.email,
+                  name: user.name,
+                  isAdmin: user.isAdmin,
+                };
+              }
+            }
+            return null;
+          }
+
+          // 生产模式：正常的数据库验证流程
+          const user = await userAdapter.findUnique(credentials.email, true);
+
+          if (!user) {
+            return null;
+          }
+
+          const isPasswordValid = await bcrypt.compare(
+            credentials.password,
+            user.password
+          );
+
+          if (!isPasswordValid) {
+            return null;
+          }
+
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            isAdmin: user.isAdmin,
+          };
+        } catch (error) {
+          console.error("Authentication error:", error);
           return null;
         }
-
-        const isPasswordValid = await compare(
-          credentials.password,
-          user.password
-        );
-
-        if (!isPasswordValid) {
-          return null;
-        }
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          isAdmin: user.isAdmin,
-        };
       },
     }),
   ],
+  session: {
+    strategy: "jwt",
+  },
   callbacks: {
-    session: ({ session, token }) => {
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: token.id,
-          isAdmin: token.isAdmin,
-        },
-      };
-    },
-    jwt: ({ token, user }) => {
+    async jwt({ token, user }) {
       if (user) {
-        return {
-          ...token,
-          id: user.id,
-          isAdmin: user.isAdmin || false,
-        };
+        token.isAdmin = user.isAdmin;
       }
       return token;
+    },
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.sub!;
+        session.user.isAdmin = Boolean(token.isAdmin);
+      }
+      return session;
     },
   },
   pages: {
     signIn: "/login",
   },
+  secret: process.env.NEXTAUTH_SECRET,
 };
