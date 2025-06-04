@@ -3,15 +3,32 @@
 import { useState, useEffect, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { useTranslations } from "next-intl";
-import type { Category } from "@/generated/prisma";
+import type { Category, Product } from "@/generated/prisma";
 
-export default function NewProductPage() {
+type Props = {
+  params: Promise<{ id: string; locale: string }>;
+};
+
+export default function EditProductPage({ params }: Props) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [categories, setCategories] = useState<Category[]>([]);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [productId, setProductId] = useState<string>("");
   const t = useTranslations("admin");
+  const tCommon = useTranslations("common");
+
+  // 解析参数
+  useEffect(() => {
+    const parseParams = async () => {
+      const resolvedParams = await params;
+      setProductId(resolvedParams.id);
+    };
+    parseParams();
+  }, [params]);
 
   // 获取所有分类
   useEffect(() => {
@@ -20,6 +37,24 @@ export default function NewProductPage() {
       .then((data) => setCategories(data))
       .catch((err) => console.error("获取分类失败:", err));
   }, []);
+
+  // 获取产品详情
+  useEffect(() => {
+    if (!productId) return;
+
+    fetch(`/api/products/${productId}`)
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("产品不存在");
+        }
+        return res.json();
+      })
+      .then((data) => setProduct(data))
+      .catch((err) => {
+        console.error("获取产品详情失败:", err);
+        notFound();
+      });
+  }, [productId]);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -49,8 +84,8 @@ export default function NewProductPage() {
     };
 
     try {
-      const response = await fetch("/api/products", {
-        method: "POST",
+      const response = await fetch(`/api/products/${productId}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -59,24 +94,32 @@ export default function NewProductPage() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || t("createProductFailed"));
+        throw new Error(errorData.message || t("updateProductFailed"));
       }
 
       // 重定向到产品列表页面
       router.push("/admin/products");
       router.refresh();
     } catch (err) {
-      setError(err instanceof Error ? err.message : t("createProductFailed"));
+      setError(err instanceof Error ? err.message : t("updateProductFailed"));
     } finally {
       setIsLoading(false);
     }
+  }
+
+  if (!product) {
+    return (
+      <div className="flex items-center justify-center min-h-64">
+        <div className="text-gray-500">{tCommon("loading")}</div>
+      </div>
+    );
   }
 
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-amber-900">
-          {t("addNewProduct")}
+          {t("editProduct")}
         </h1>
         <Link
           href="/admin/products"
@@ -109,6 +152,7 @@ export default function NewProductPage() {
                 type="text"
                 id="name"
                 name="name"
+                defaultValue={product.name}
                 required
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
               />
@@ -125,6 +169,7 @@ export default function NewProductPage() {
                 type="number"
                 id="price"
                 name="price"
+                defaultValue={product.price}
                 min="0"
                 step="0.01"
                 required
@@ -142,6 +187,7 @@ export default function NewProductPage() {
               <select
                 id="categoryId"
                 name="categoryId"
+                defaultValue={product.categoryId}
                 required
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
               >
@@ -165,6 +211,7 @@ export default function NewProductPage() {
                 type="url"
                 id="imageUrl"
                 name="imageUrl"
+                defaultValue={product.imageUrl || ""}
                 placeholder="https://example.com/image.jpg"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
               />
@@ -202,6 +249,7 @@ export default function NewProductPage() {
                   type="url"
                   id="amazonUrl"
                   name="amazonUrl"
+                  defaultValue={product.amazonUrl || ""}
                   placeholder="https://www.amazon.com/product"
                   className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 />
@@ -232,6 +280,7 @@ export default function NewProductPage() {
                   type="url"
                   id="ebayUrl"
                   name="ebayUrl"
+                  defaultValue={product.ebayUrl || ""}
                   placeholder="https://www.ebay.com/product"
                   className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
                 />
@@ -246,6 +295,7 @@ export default function NewProductPage() {
                 type="checkbox"
                 id="featured"
                 name="featured"
+                defaultChecked={product.featured}
                 className="h-4 w-4 text-amber-600 focus:ring-amber-500 border-gray-300 rounded"
               />
               <label
@@ -268,6 +318,7 @@ export default function NewProductPage() {
               id="description"
               name="description"
               rows={12}
+              defaultValue={product.description}
               required
               className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
             ></textarea>
@@ -287,7 +338,7 @@ export default function NewProductPage() {
             disabled={isLoading}
             className="bg-amber-700 text-white py-2 px-4 rounded-md hover:bg-amber-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? t("saving") : t("saveProduct")}
+            {isLoading ? t("saving") : t("saveChanges")}
           </button>
         </div>
       </form>

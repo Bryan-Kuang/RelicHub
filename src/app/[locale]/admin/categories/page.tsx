@@ -1,43 +1,53 @@
-import { prisma } from "@/lib/db";
+import { categoryAdapter } from "@/lib/demo-adapter";
 import Link from "next/link";
+
+type Props = {
+  params: Promise<{ locale: string }>;
+};
 
 async function getCategories() {
   try {
-    const categories = await prisma.category.findMany({
-      include: {
-        _count: {
-          select: { products: true },
-        },
-      },
-      orderBy: {
-        name: "asc",
-      },
-    });
-    return categories;
+    return await categoryAdapter.findMany();
   } catch (error) {
     console.error("获取分类列表失败:", error);
     return [];
   }
 }
 
-export default async function AdminCategoriesPage() {
+// 获取翻译消息
+async function getMessages(locale: string) {
+  try {
+    return (await import(`../../../../messages/${locale}.json`)).default;
+  } catch (error) {
+    console.error(`Failed to load messages for locale: ${locale}`, error);
+    return (await import(`../../../../messages/en.json`)).default;
+  }
+}
+
+export default async function AdminCategoriesPage({ params }: Props) {
+  const resolvedParams = await params;
+  const { locale } = resolvedParams;
   const categories = await getCategories();
+  const messages = await getMessages(locale);
+  const t = messages.admin;
 
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-amber-900">分类管理</h1>
+        <h1 className="text-2xl font-bold text-amber-900">
+          {t.categoryManagement}
+        </h1>
         <Link
           href="/admin/categories/new"
           className="bg-amber-700 hover:bg-amber-800 text-white py-2 px-4 rounded-md transition-colors"
         >
-          添加新分类
+          {t.addNewCategory}
         </Link>
       </div>
 
       {categories.length === 0 ? (
         <div className="text-center py-8 bg-white rounded-lg border border-gray-200">
-          <p className="text-gray-500">暂无分类</p>
+          <p className="text-gray-500">{t.noCategories}</p>
         </div>
       ) : (
         <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
@@ -48,25 +58,25 @@ export default async function AdminCategoriesPage() {
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  分类名称
+                  {t.categoryName}
                 </th>
                 <th
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  描述
+                  {t.description}
                 </th>
                 <th
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  藏品数量
+                  {t.productCount}
                 </th>
                 <th
                   scope="col"
                   className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  操作
+                  {t.actions}
                 </th>
               </tr>
             </thead>
@@ -80,12 +90,14 @@ export default async function AdminCategoriesPage() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="text-sm text-gray-500 truncate max-w-xs">
-                      {category.description || "无描述"}
+                      {category.description || t.noDescription}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-900">
-                      {category._count.products}
+                      {(category as any)._count?.products ||
+                        (category as any).products?.length ||
+                        0}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
@@ -93,13 +105,13 @@ export default async function AdminCategoriesPage() {
                       href={`/admin/categories/${category.id}/edit`}
                       className="text-amber-600 hover:text-amber-900 mr-3"
                     >
-                      编辑
+                      {t.edit}
                     </Link>
                     <Link
                       href={`/admin/categories/${category.id}/delete`}
                       className="text-red-600 hover:text-red-900"
                     >
-                      删除
+                      {t.delete}
                     </Link>
                   </td>
                 </tr>

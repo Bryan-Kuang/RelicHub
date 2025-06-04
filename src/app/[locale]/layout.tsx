@@ -6,6 +6,9 @@ import Footer from "@/components/Footer";
 import { AuthProvider } from "../providers";
 import { NextIntlClientProvider } from "next-intl";
 import { locales } from "@/i18n/routing";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { ConfigProvider } from "antd";
+import theme from "@/lib/antd-theme";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -46,13 +49,17 @@ export default async function RootLayout({ children, params }: Props) {
       <body
         className={`${inter.className} flex flex-col min-h-screen bg-amber-50`}
       >
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <AuthProvider>
-            <Navbar />
-            <main className="flex-grow">{children}</main>
-            <Footer />
-          </AuthProvider>
-        </NextIntlClientProvider>
+        <AntdRegistry>
+          <ConfigProvider theme={theme}>
+            <NextIntlClientProvider locale={locale} messages={messages}>
+              <AuthProvider>
+                <Navbar />
+                <main className="flex-grow">{children}</main>
+                <Footer />
+              </AuthProvider>
+            </NextIntlClientProvider>
+          </ConfigProvider>
+        </AntdRegistry>
       </body>
     </html>
   );

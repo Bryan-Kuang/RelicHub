@@ -17,18 +17,46 @@ console.log(`🎭 演示模式: ${isDemoMode ? "开启" : "关闭"}`);
 
 // 分类数据适配器
 export const categoryAdapter = {
-  async findMany() {
+  async findMany(options?: { include?: any; take?: number }) {
     if (isDemoMode) {
-      return demoCategories;
+      let categories = demoCategories.map((cat) => ({
+        ...cat,
+        products: demoProducts.filter(
+          (product) => product.categoryId === cat.id
+        ),
+        _count: {
+          products: demoProducts.filter(
+            (product) => product.categoryId === cat.id
+          ).length,
+        },
+      }));
+
+      // 限制数量
+      if (options?.take) {
+        categories = categories.slice(0, options.take);
+      }
+
+      return categories;
     }
     return await prisma.category.findMany({
-      include: { products: true },
+      include: {
+        products: true,
+        _count: { select: { products: true } },
+      },
+      ...options,
     });
   },
 
   async findUnique(id: string) {
     if (isDemoMode) {
-      return demoCategories.find((cat) => cat.id === id) || null;
+      const category = demoCategories.find((cat) => cat.id === id);
+      if (category) {
+        return {
+          ...category,
+          products: demoProducts.filter((product) => product.categoryId === id),
+        };
+      }
+      return null;
     }
     return await prisma.category.findUnique({
       where: { id },

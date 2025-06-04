@@ -91,7 +91,7 @@ export default async function ProductDetailPage({ params }: Props) {
             />
           ) : (
             <div className="flex items-center justify-center h-full">
-              <span className="text-gray-400">暂无图片</span>
+              <span className="text-gray-400">{t.noImage}</span>
             </div>
           )}
         </div>
@@ -119,16 +119,53 @@ export default async function ProductDetailPage({ params }: Props) {
             </p>
           </div>
 
-          {product.amazonUrl && (
-            <div>
-              <a
-                href={product.amazonUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-block bg-amber-600 hover:bg-amber-700 text-white font-medium py-3 px-6 rounded-lg transition-colors"
-              >
-                {t.buyOnAmazon}
-              </a>
+          {/* 购买链接部分 */}
+          {(product.amazonUrl || product.ebayUrl) && (
+            <div className="space-y-3">
+              <h3 className="text-lg font-medium text-gray-900">
+                {t.purchaseLinks}
+              </h3>
+
+              <div className="flex flex-col space-y-2">
+                {product.amazonUrl && (
+                  <a
+                    href={product.amazonUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center bg-orange-500 hover:bg-orange-600 text-white font-medium py-3 px-6 rounded-lg transition-colors"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-2"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M.045 18.02c.072-.116.187-.124.348-.022 3.636 2.11 6.655 3.167 9.058 3.167 2.833 0 5.937-1.017 9.313-3.048.16-.097.28-.095.358.01.077.106.067.21-.031.31-.975.997-2.678 1.995-5.11 2.993-2.433.998-4.677 1.497-6.732 1.497-2.746 0-5.196-.997-7.35-2.993-.22-.203-.16-.412.146-.914z" />
+                      <path d="M20.73 15.41c-.15 0-.31-.05-.42-.15l-6.25-5.1c-.31-.25-.36-.7-.11-1.01.25-.31.7-.36 1.01-.11l6.25 5.1c.31.25.36.7.11 1.01-.14.17-.34.26-.59.26z" />
+                    </svg>
+                    {t.buyOnAmazon}
+                  </a>
+                )}
+
+                {product.ebayUrl && (
+                  <a
+                    href={product.ebayUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors"
+                  >
+                    <svg
+                      className="w-5 h-5 mr-2"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                    >
+                      <path d="M6.5 7.8c-1.1 0-2 .5-2.5 1.4V9h1.6v-.2c.2-.4.6-.7 1.1-.7.8 0 1.3.6 1.3 1.5v.4H6.6c-1.6 0-2.6.7-2.6 1.9 0 1.1.8 1.9 2.1 1.9.8 0 1.4-.3 1.8-.9h.1v.8h1.5V9.8c0-1.2-.9-2-2.5-2zm.9 4.5c0 .6-.5 1-1.2 1-.5 0-.8-.3-.8-.7 0-.4.3-.7.9-.7h1.1v.4z" />
+                      <path d="M12.5 7.8c-1.7 0-2.8 1.3-2.8 2.9s1.1 2.9 2.8 2.9c1.7 0 2.8-1.3 2.8-2.9s-1.1-2.9-2.8-2.9zm0 4.5c-.8 0-1.3-.7-1.3-1.6s.5-1.6 1.3-1.6 1.3.7 1.3 1.6-.5 1.6-1.3 1.6z" />
+                      <path d="M18.1 7.8c-.7 0-1.3.3-1.7.8h-.1V8h-1.6v5.5h1.6v-3.2c0-.9.5-1.4 1.2-1.4.7 0 1.1.5 1.1 1.3v3.3h1.6v-3.6c0-1.4-.8-2.1-2.1-2.1z" />
+                    </svg>
+                    {t.buyOnEbay}
+                  </a>
+                )}
+              </div>
             </div>
           )}
 
@@ -162,7 +199,7 @@ export default async function ProductDetailPage({ params }: Props) {
                     />
                   ) : (
                     <div className="flex items-center justify-center h-full">
-                      <span className="text-gray-400">暂无图片</span>
+                      <span className="text-gray-400">{t.noImage}</span>
                     </div>
                   )}
                 </div>

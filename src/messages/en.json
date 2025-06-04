@@ -35,6 +35,11 @@
       "painting": "Paintings",
       "bronze": "Bronze",
       "viewAll": "View All Categories"
+    },
+    "heritage": {
+      "title": "Millennial Art Treasures",
+      "description": "We focus on collecting and showcasing precious antiques from traditional Chinese culture. From exquisite porcelain to ancient bronzes, from calligraphy masterpieces to jade treasures, each piece is professionally authenticated and carefully selected.",
+      "learnMore": "Learn More"
     }
   },
   "products": {
@@ -47,7 +52,18 @@
     "buyOnAmazon": "Buy on Amazon",
     "relatedProducts": "Related Products",
     "description": "Description",
-    "noResults": "No products found"
+    "noResults": "No products found",
+    "availableOn": "Available on:",
+    "noImage": "No Image"
+  },
+  "product": {
+    "description": "Description",
+    "buyOnAmazon": "Buy on Amazon",
+    "buyOnEbay": "Buy on eBay",
+    "relatedProducts": "Related Products",
+    "featured": "This is a featured item",
+    "purchaseLinks": "Purchase Links",
+    "noImage": "No image available"
   },
   "categories": {
     "title": "Browse by Category",
@@ -64,7 +80,62 @@
     "editCategory": "Edit Category",
     "save": "Save",
     "delete": "Delete",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "back": "Back",
+    "menu": "Admin Menu",
+    "controlPanel": "Dashboard",
+    "manageProducts": "Manage Products",
+    "manageCategories": "Manage Categories",
+    "totalProducts": "Total Products",
+    "totalCategories": "Total Categories",
+    "featuredProducts": "Featured Products",
+    "quickActions": "Quick Actions",
+    "addNewProduct": "Add New Product",
+    "addNewCategory": "Add New Category",
+    "tips": "Tips",
+    "tipsContent": "Featured products will be displayed on the homepage to attract more visitors. Make sure to add high-quality images and detailed descriptions for each product to improve conversion rates.",
+    "demoMode": "Demo Mode",
+    "demoModeDescription": "Currently in demo mode. All data changes are temporary and will not be permanently saved.",
+    "viewFeatured": "View Featured →",
+    "productManagement": "Product Management",
+    "featuredProductManagement": "Featured Product Management",
+    "categoryManagement": "Category Management",
+    "noProducts": "No products",
+    "noCategories": "No categories",
+    "product": "Product",
+    "category": "Category",
+    "price": "Price",
+    "status": "Status",
+    "actions": "Actions",
+    "featured": "Featured",
+    "normal": "Normal",
+    "categoryName": "Category Name",
+    "description": "Description",
+    "productCount": "Product Count",
+    "noDescription": "No description",
+    "backToProductList": "Back to Product List",
+    "backToCategoryList": "Back to Category List",
+    "productName": "Product Name",
+    "imageUrl": "Image URL",
+    "selectCategory": "Select Category",
+    "purchaseLinks": "Purchase Links",
+    "purchaseLinksRequired": "At least one purchase link is required (Amazon or eBay)",
+    "amazonLink": "Amazon Link",
+    "amazonLinkHelp": "Required if eBay link is not provided",
+    "ebayLink": "eBay Link",
+    "ebayLinkHelp": "Required if Amazon link is not provided",
+    "setAsFeatured": "Set as Featured Product",
+    "saving": "Saving...",
+    "saveProduct": "Save Product",
+    "saveChanges": "Save Changes",
+    "saveCategory": "Save Category",
+    "createProduct": "Create Product",
+    "createCategory": "Create Category",
+    "validationError": "Please provide at least one purchase link (Amazon or eBay)",
+    "createProductFailed": "Failed to create product",
+    "updateProductFailed": "Failed to update product",
+    "createCategoryFailed": "Failed to create category"
   },
   "auth": {
     "login": "Login",
@@ -73,14 +144,20 @@
     "password": "Password",
     "name": "Name",
     "submit": "Submit",
-    "adminArea": "This is an admin area"
+    "adminArea": "This is an admin area",
+    "loggingIn": "Logging in...",
+    "registering": "Registering...",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?"
   },
   "common": {
     "loading": "Loading...",
     "error": "An error occurred",
     "success": "Success",
     "notFound": "Page not found",
-    "backToHome": "Back to Home"
+    "backToHome": "Back to Home",
+    "required": "Required",
+    "optional": "Optional"
   },
   "footer": {
     "copyright": "© 2024 RelicHub. All rights reserved.",

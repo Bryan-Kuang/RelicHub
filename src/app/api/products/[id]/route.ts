@@ -43,6 +43,18 @@ export async function PUT(
 
     const resolvedParams = await params;
     const data = await req.json();
+
+    // 验证至少有一个购买链接
+    const amazonUrl = data.amazonUrl?.trim() || null;
+    const ebayUrl = data.ebayUrl?.trim() || null;
+
+    if (!amazonUrl && !ebayUrl) {
+      return NextResponse.json(
+        { message: "请至少提供一个购买链接（Amazon或eBay）" },
+        { status: 400 }
+      );
+    }
+
     const product = await prisma.product.update({
       where: {
         id: resolvedParams.id,
@@ -51,8 +63,9 @@ export async function PUT(
         name: data.name,
         description: data.description,
         price: parseFloat(data.price),
-        imageUrl: data.imageUrl,
-        amazonUrl: data.amazonUrl,
+        imageUrl: data.imageUrl || null,
+        amazonUrl: amazonUrl,
+        ebayUrl: ebayUrl,
         categoryId: data.categoryId,
         featured: data.featured,
       },
@@ -63,6 +76,7 @@ export async function PUT(
 
     return NextResponse.json(product);
   } catch (error) {
+    console.error("更新产品失败:", error);
     return NextResponse.json({ error: "更新产品失败" }, { status: 500 });
   }
 }

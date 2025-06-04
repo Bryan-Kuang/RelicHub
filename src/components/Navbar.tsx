@@ -121,31 +121,55 @@ export default function Navbar() {
               </>
             )}
 
-            {/* 语言切换原生下拉菜单 */}
-            <div className="ml-3">
-              <select
-                value={locale}
-                onChange={(e) => handleLanguageChange(e.target.value)}
-                className="bg-amber-700 hover:bg-amber-600 text-white border border-amber-600 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+            {/* 语言切换简约按钮 */}
+            <div className="ml-3 flex space-x-1">
+              <button
+                onClick={() => handleLanguageChange("en")}
+                className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
+                  locale === "en"
+                    ? "bg-amber-600 text-white"
+                    : "bg-amber-700 hover:bg-amber-600 text-amber-100"
+                }`}
               >
-                <option value="en">English</option>
-                <option value="zh">中文</option>
-              </select>
+                EN
+              </button>
+              <button
+                onClick={() => handleLanguageChange("zh")}
+                className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
+                  locale === "zh"
+                    ? "bg-amber-600 text-white"
+                    : "bg-amber-700 hover:bg-amber-600 text-amber-100"
+                }`}
+              >
+                中
+              </button>
             </div>
           </div>
 
           {/* 移动端菜单按钮 */}
           <div className="md:hidden flex items-center">
             {/* 移动端语言切换 */}
-            <div className="mr-2">
-              <select
-                value={locale}
-                onChange={(e) => handleLanguageChange(e.target.value)}
-                className="bg-amber-700 text-white border border-amber-600 rounded-md px-2 py-1 text-sm focus:outline-none"
+            <div className="mr-2 flex space-x-1">
+              <button
+                onClick={() => handleLanguageChange("en")}
+                className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
+                  locale === "en"
+                    ? "bg-amber-600 text-white"
+                    : "bg-amber-700 hover:bg-amber-600 text-amber-100"
+                }`}
               >
-                <option value="en">EN</option>
-                <option value="zh">中文</option>
-              </select>
+                EN
+              </button>
+              <button
+                onClick={() => handleLanguageChange("zh")}
+                className={`px-2 py-1 rounded text-xs font-medium transition-colors ${
+                  locale === "zh"
+                    ? "bg-amber-600 text-white"
+                    : "bg-amber-700 hover:bg-amber-600 text-amber-100"
+                }`}
+              >
+                中
+              </button>
             </div>
 
             <button

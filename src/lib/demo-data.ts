@@ -49,6 +49,7 @@ export const demoProducts = [
     imageUrl:
       "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500",
     amazonUrl: "https://amazon.com/chinese-porcelain-vase",
+    ebayUrl: "https://ebay.com/chinese-blue-white-vase",
     categoryId: "demo-cat-1",
     featured: true,
     createdAt: new Date("2024-01-01"),
@@ -63,6 +64,7 @@ export const demoProducts = [
     imageUrl:
       "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=500",
     amazonUrl: "https://amazon.com/chinese-landscape-painting",
+    ebayUrl: null,
     categoryId: "demo-cat-2",
     featured: true,
     createdAt: new Date("2024-01-01"),
@@ -76,7 +78,8 @@ export const demoProducts = [
     price: 5888.0,
     imageUrl:
       "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500",
-    amazonUrl: "https://amazon.com/jade-guanyin-statue",
+    amazonUrl: null,
+    ebayUrl: "https://ebay.com/jade-guanyin-statue",
     categoryId: "demo-cat-3",
     featured: true,
     createdAt: new Date("2024-01-01"),
@@ -91,6 +94,7 @@ export const demoProducts = [
     imageUrl:
       "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500",
     amazonUrl: "https://amazon.com/bronze-ding-vessel",
+    ebayUrl: "https://ebay.com/bronze-ding-ancient",
     categoryId: "demo-cat-4",
     featured: false,
     createdAt: new Date("2024-01-01"),
@@ -105,6 +109,7 @@ export const demoProducts = [
     imageUrl:
       "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500",
     amazonUrl: "https://amazon.com/rosewood-tea-table",
+    ebayUrl: null,
     categoryId: "demo-cat-5",
     featured: false,
     createdAt: new Date("2024-01-01"),
@@ -118,7 +123,8 @@ export const demoProducts = [
     price: 888.0,
     imageUrl:
       "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500",
-    amazonUrl: "https://amazon.com/floral-porcelain-plate",
+    amazonUrl: null,
+    ebayUrl: "https://ebay.com/chinese-porcelain-plate",
     categoryId: "demo-cat-1",
     featured: false,
     createdAt: new Date("2024-01-01"),
@@ -133,6 +139,7 @@ export const demoProducts = [
     imageUrl:
       "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=500",
     amazonUrl: "https://amazon.com/lanting-calligraphy",
+    ebayUrl: "https://ebay.com/chinese-calligraphy-lanting",
     categoryId: "demo-cat-2",
     featured: false,
     createdAt: new Date("2024-01-01"),
@@ -147,6 +154,7 @@ export const demoProducts = [
     imageUrl:
       "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500",
     amazonUrl: "https://amazon.com/jade-bracelet",
+    ebayUrl: null,
     categoryId: "demo-cat-3",
     featured: true,
     createdAt: new Date("2024-01-01"),
@@ -160,7 +168,8 @@ export const demoProducts = [
     price: 4588.0,
     imageUrl:
       "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=500",
-    amazonUrl: "https://amazon.com/bronze-wine-vessel",
+    amazonUrl: null,
+    ebayUrl: "https://ebay.com/bronze-wine-vessel",
     categoryId: "demo-cat-4",
     featured: false,
     createdAt: new Date("2024-01-01"),
@@ -175,6 +184,7 @@ export const demoProducts = [
     imageUrl:
       "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=500",
     amazonUrl: "https://amazon.com/huanghuali-chair",
+    ebayUrl: "https://ebay.com/chinese-antique-chair",
     categoryId: "demo-cat-5",
     featured: true,
     createdAt: new Date("2024-01-01"),

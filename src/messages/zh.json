@@ -35,6 +35,11 @@
       "painting": "书画",
       "bronze": "铜器",
       "viewAll": "查看全部分类"
+    },
+    "heritage": {
+      "title": "传承千年的艺术珍宝",
+      "description": "我们专注于收集和展示中国传统文化中的珍贵古董。从精美的瓷器到古朴的青铜器，从书法名作到玉器精品，每一件藏品都经过专业鉴定和精心挑选。",
+      "learnMore": "了解更多"
     }
   },
   "products": {
@@ -47,7 +52,18 @@
     "buyOnAmazon": "在亚马逊购买",
     "relatedProducts": "相关藏品",
     "description": "详细描述",
-    "noResults": "未找到藏品"
+    "noResults": "未找到藏品",
+    "availableOn": "可购买于:",
+    "noImage": "无图片"
+  },
+  "product": {
+    "description": "详细描述",
+    "buyOnAmazon": "在亚马逊购买",
+    "buyOnEbay": "在eBay购买",
+    "relatedProducts": "相关藏品",
+    "featured": "这是精选藏品",
+    "purchaseLinks": "购买链接",
+    "noImage": "暂无图片"
   },
   "categories": {
     "title": "按分类浏览",
@@ -64,7 +80,62 @@
     "editCategory": "编辑分类",
     "save": "保存",
     "delete": "删除",
-    "cancel": "取消"
+    "cancel": "取消",
+    "edit": "编辑",
+    "back": "返回",
+    "menu": "管理菜单",
+    "controlPanel": "控制面板",
+    "manageProducts": "管理藏品",
+    "manageCategories": "管理分类",
+    "totalProducts": "藏品总数",
+    "totalCategories": "分类总数",
+    "featuredProducts": "精选藏品",
+    "quickActions": "快速操作",
+    "addNewProduct": "添加新藏品",
+    "addNewCategory": "添加新分类",
+    "tips": "提示",
+    "tipsContent": "添加精选藏品可以在首页展示，吸引更多访客关注。确保为每个藏品添加高质量的图片和详细描述，以提高转化率。",
+    "demoMode": "演示模式",
+    "demoModeDescription": "当前处于演示模式，所有数据修改仅在会话期间有效，不会永久保存。",
+    "viewFeatured": "查看精选藏品 →",
+    "productManagement": "藏品管理",
+    "featuredProductManagement": "精选藏品管理",
+    "categoryManagement": "分类管理",
+    "noProducts": "暂无藏品",
+    "noCategories": "暂无分类",
+    "product": "藏品",
+    "category": "类别",
+    "price": "价格",
+    "status": "状态",
+    "actions": "操作",
+    "featured": "精选",
+    "normal": "普通",
+    "categoryName": "分类名称",
+    "description": "描述",
+    "productCount": "藏品数量",
+    "noDescription": "无描述",
+    "backToProductList": "返回藏品列表",
+    "backToCategoryList": "返回分类列表",
+    "productName": "藏品名称",
+    "imageUrl": "图片URL",
+    "selectCategory": "选择分类",
+    "purchaseLinks": "购买链接",
+    "purchaseLinksRequired": "至少需要提供一个购买链接（Amazon或eBay）",
+    "amazonLink": "亚马逊链接",
+    "amazonLinkHelp": "如果不提供eBay链接，此项必填",
+    "ebayLink": "eBay链接",
+    "ebayLinkHelp": "如果不提供亚马逊链接，此项必填",
+    "setAsFeatured": "设为精选藏品",
+    "saving": "保存中...",
+    "saveProduct": "保存藏品",
+    "saveChanges": "保存更改",
+    "saveCategory": "保存分类",
+    "createProduct": "创建产品",
+    "createCategory": "创建分类",
+    "validationError": "请至少提供一个购买链接（Amazon或eBay）",
+    "createProductFailed": "创建藏品失败",
+    "updateProductFailed": "更新藏品失败",
+    "createCategoryFailed": "创建分类失败"
   },
   "auth": {
     "login": "登录",
@@ -73,14 +144,20 @@
     "password": "密码",
     "name": "姓名",
     "submit": "提交",
-    "adminArea": "管理员专区"
+    "adminArea": "管理员专区",
+    "loggingIn": "登录中...",
+    "registering": "注册中...",
+    "alreadyHaveAccount": "已有账号？",
+    "dontHaveAccount": "还没有账号？"
   },
   "common": {
     "loading": "加载中...",
     "error": "发生错误",
     "success": "成功",
     "notFound": "页面未找到",
-    "backToHome": "返回首页"
+    "backToHome": "返回首页",
+    "required": "必填",
+    "optional": "可选"
   },
   "footer": {
     "copyright": "© 2024 古玩珍藏。保留所有权利。",

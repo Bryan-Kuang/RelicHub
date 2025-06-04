@@ -39,7 +39,8 @@ model Product {
   description String
   price       Float
   imageUrl    String?
-  amazonUrl   String
+  amazonUrl   String?
+  ebayUrl     String?
   categoryId  String
   category    Category @relation(fields: [categoryId], references: [id])
   featured    Boolean  @default(false)

@@ -1,8 +1,10 @@
 import { productAdapter } from "@/lib/demo-adapter";
 import Link from "next/link";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 type Props = {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{
     featured?: string;
   }>;
@@ -21,28 +23,45 @@ async function getProducts(featured?: boolean) {
   }
 }
 
-export default async function AdminProductsPage({ searchParams }: Props) {
+// 获取翻译消息
+async function getMessages(locale: string) {
+  try {
+    return (await import(`../../../../messages/${locale}.json`)).default;
+  } catch (error) {
+    console.error(`Failed to load messages for locale: ${locale}`, error);
+    return (await import(`../../../../messages/en.json`)).default;
+  }
+}
+
+export default async function AdminProductsPage({
+  params,
+  searchParams,
+}: Props) {
+  const resolvedParams = await params;
   const resolvedSearchParams = await searchParams;
+  const { locale } = resolvedParams;
   const featured = resolvedSearchParams?.featured === "true";
   const products = await getProducts(featured);
+  const messages = await getMessages(locale);
+  const t = messages.admin;
 
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold text-amber-900">
-          {featured ? "精选藏品管理" : "藏品管理"}
+          {featured ? t.featuredProductManagement : t.productManagement}
         </h1>
         <Link
           href="/admin/products/new"
           className="bg-amber-700 hover:bg-amber-800 text-white py-2 px-4 rounded-md transition-colors"
         >
-          添加新藏品
+          {t.addNewProduct}
         </Link>
       </div>
 
       {products.length === 0 ? (
         <div className="text-center py-8 bg-white rounded-lg border border-gray-200">
-          <p className="text-gray-500">暂无藏品</p>
+          <p className="text-gray-500">{t.noProducts}</p>
         </div>
       ) : (
         <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
@@ -53,31 +72,31 @@ export default async function AdminProductsPage({ searchParams }: Props) {
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  藏品
+                  {t.product}
                 </th>
                 <th
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  类别
+                  {t.category}
                 </th>
                 <th
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  价格
+                  {t.price}
                 </th>
                 <th
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  状态
+                  {t.status}
                 </th>
                 <th
                   scope="col"
                   className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  操作
+                  {t.actions}
                 </th>
               </tr>
             </thead>
@@ -98,7 +117,9 @@ export default async function AdminProductsPage({ searchParams }: Props) {
                           </div>
                         ) : (
                           <div className="h-10 w-10 rounded bg-gray-200 flex items-center justify-center">
-                            <span className="text-xs text-gray-500">无图</span>
+                            <span className="text-xs text-gray-500">
+                              {messages.products.noImage}
+                            </span>
                           </div>
                         )}
                       </div>
@@ -122,11 +143,11 @@ export default async function AdminProductsPage({ searchParams }: Props) {
                   <td className="px-6 py-4 whitespace-nowrap">
                     {product.featured ? (
                       <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-amber-100 text-amber-800">
-                        精选
+                        {t.featured}
                       </span>
                     ) : (
                       <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
-                        普通
+                        {t.normal}
                       </span>
                     )}
                   </td>
@@ -135,13 +156,13 @@ export default async function AdminProductsPage({ searchParams }: Props) {
                       href={`/admin/products/${product.id}/edit`}
                       className="text-amber-600 hover:text-amber-900 mr-3"
                     >
-                      编辑
+                      {t.edit}
                     </Link>
                     <Link
                       href={`/admin/products/${product.id}/delete`}
                       className="text-red-600 hover:text-red-900"
                     >
-                      删除
+                      {t.delete}
                     </Link>
                   </td>
                 </tr>
