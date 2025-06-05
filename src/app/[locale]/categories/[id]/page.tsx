@@ -3,10 +3,8 @@ import ProductCard from "@/components/ProductCard";
 import { notFound } from "next/navigation";
 import { locales } from "@/i18n/routing";
 
-// 生成静态参数
-export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
-}
+// 配置页面为动态渲染
+export const dynamic = "force-dynamic";
 
 // 获取翻译消息
 async function getMessages(locale: string) {
