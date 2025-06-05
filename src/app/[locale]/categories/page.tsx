@@ -77,7 +77,10 @@ export default async function CategoriesPage({ params }: Props) {
                 <div className="text-center text-white">
                   <h2 className="text-2xl font-bold mb-1">{category.name}</h2>
                   <p className="text-sm">
-                    {/* 显示固定数量，因为demo数据不支持_count */}2 {t.products}
+                    {(category as any)._count?.products ||
+                      (category as any).products?.length ||
+                      0}{" "}
+                    {t.products}
                   </p>
                 </div>
               </div>
