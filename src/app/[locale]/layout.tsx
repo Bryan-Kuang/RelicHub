@@ -13,8 +13,9 @@ import theme from "@/lib/antd-theme";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "RelicHub - Antique Treasures",
-  description: "Explore exquisite antique collections and cultural artifacts",
+  title: "CraftHub - Traditional Handicrafts",
+  description:
+    "Discover authentic traditional Chinese handicrafts including prayer beads, incense, wood carvings and tea sets",
 };
 
 // 获取消息

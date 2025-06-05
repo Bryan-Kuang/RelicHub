@@ -37,7 +37,7 @@ export default function Navbar() {
           <div className="flex items-center">
             <Link href="/" className="flex-shrink-0 flex items-center">
               <span className="text-xl font-bold">
-                {locale === "zh" ? "古玩珍藏" : "RelicHub"}
+                {locale === "zh" ? "工艺坊" : "CraftHub"}
               </span>
             </Link>
           </div>
