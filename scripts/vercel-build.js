@@ -14,9 +14,14 @@ try {
   execSync("npx prisma generate", { stdio: "inherit" });
 
   if (!isDemoMode && process.env.DATABASE_URL) {
-    // 生产模式且有数据库URL时运行迁移
-    console.log("🗄️ 运行数据库迁移...");
-    execSync("npx prisma migrate deploy", { stdio: "inherit" });
+    // 生产模式且有数据库URL时同步数据库
+    console.log("🗄️ 同步数据库结构...");
+    try {
+      execSync("npx prisma migrate deploy", { stdio: "inherit" });
+    } catch (error) {
+      console.log("⚠️ 迁移失败，尝试使用 db push...");
+      execSync("npx prisma db push", { stdio: "inherit" });
+    }
   } else {
     console.log("⚠️ 跳过数据库迁移 (演示模式或无数据库URL)");
   }
