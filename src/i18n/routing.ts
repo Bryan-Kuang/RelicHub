@@ -1,5 +1,4 @@
 import { defineRouting } from "next-intl/routing";
-import { createNavigation } from "next-intl/navigation";
 
 // 支持的语言列表
 export const locales = ["en", "zh"] as const;
@@ -14,7 +13,3 @@ export const routing = defineRouting({
   // 语言前缀模式（总是显示）
   localePrefix: "always",
 });
-
-// 创建导航API
-export const { Link, redirect, usePathname, useRouter, getPathname } =
-  createNavigation(routing);
