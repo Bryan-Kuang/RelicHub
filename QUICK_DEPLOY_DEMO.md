@@ -1,108 +1,129 @@
-# 🚀 RelicHub 演示版本快速部署指南
+# 🚀 RelicHub 快速演示部署
 
-## 概述
+## ⚡ 立即修复 Vercel 部署问题
 
-这个指南将帮助您在 5 分钟内将 RelicHub 演示版本部署到 Vercel，无需任何数据库配置。
-
-## ⚡ 一键部署步骤
-
-### 1. 准备 GitHub 仓库
-
-```bash
-git add .
-git commit -m "准备演示版本部署"
-git push origin main
-```
-
-### 2. 连接到 Vercel
-
-1. 访问 [vercel.com](https://vercel.com)
-2. 使用 GitHub 账户登录
-3. 点击 "Import Project"
-4. 选择您的 RelicHub 仓库
-
-### 3. 配置部署设置
-
-✅ **无需手动配置** - 所有设置已在 `vercel.json` 中预配置：
-
-- ✅ 演示模式已启用 (`DEMO_MODE=true`)
-- ✅ 虚拟数据库 URL 已配置
-- ✅ NextAuth 密钥已设置
-- ✅ 构建命令已优化（跳过数据库迁移）
-- ✅ 区域设置为华盛顿 DC (`iad1`)
-
-### 4. 部署
-
-点击 "Deploy" 按钮，等待 2-3 分钟即可完成！
-
-## 🎯 演示版本特性
-
-### 预装示例数据
-
-- **10+ 精美产品**：青花瓷花瓶、山水画轴、白玉观音像等
-- **5 大分类**：瓷器、书画、玉器、铜器、古典家具
-- **双语界面**：完整的中英文支持
-- **响应式设计**：适配所有设备
-
-### 管理员功能演示
-
-- **登录信息**：admin@example.com / password123
-- **完整后台**：产品管理、分类管理、用户管理
-- **统计面板**：产品数量、分类统计等
-
-### 用户体验功能
-
-- **产品浏览**：分类筛选、详情查看
-- **语言切换**：中英文无缝切换
-- **响应式布局**：手机、平板、桌面完美适配
-
-## 🔧 构建系统改进
-
-### 智能构建脚本
-
-项目现在使用智能构建脚本 (`scripts/vercel-build.js`)：
-
-```javascript
-// 自动检测演示模式
-const isDemoMode = process.env.DEMO_MODE === "true";
-
-// 演示模式：跳过数据库迁移
-// 生产模式：运行完整数据库设置
-```
-
-### 修复的问题
-
-- ✅ **DATABASE_URL 错误**：演示模式下提供虚拟数据库 URL
-- ✅ **构建失败**：智能跳过数据库迁移
-- ✅ **Prisma 生成**：确保客户端正确生成
-
-## 📱 访问您的演示网站
-
-部署完成后，您将获得一个 `.vercel.app` 链接，例如：
+**您遇到的错误**：
 
 ```
-https://relichub-demo-xxx.vercel.app
+Error validating datasource `db`: the URL must start with the protocol `file:`.
 ```
 
-### 测试功能
+**解决方案**：在 Vercel 项目设置中添加环境变量
 
-1. **首页**：查看精选产品和分类
-2. **产品页面**：浏览所有产品
-3. **分类页面**：按分类筛选
-4. **语言切换**：测试中英文切换
-5. **管理后台**：使用 admin@example.com 登录
+### 1️⃣ 登录 Vercel 控制台
 
-## 🔄 切换到生产模式
+- 进入您的 RelicHub 项目
+- 点击 "Settings" 标签
+- 选择 "Environment Variables"
 
-当您准备好连接真实数据库时，请参考 [DEMO_TO_PRODUCTION.md](./DEMO_TO_PRODUCTION.md) 获取详细指南。
+### 2️⃣ 添加以下环境变量
 
-## 💡 提示
+**方案 A：演示模式（推荐快速部署）**
 
-- **零配置部署**：所有设置都已预配置
-- **即时生效**：推送代码后自动部署
-- **安全设置**：包含适当的安全头部
-- **性能优化**：包含缓存和压缩设置
+```
+DEMO_MODE=true
+NEXTAUTH_SECRET=Ad/ZgSMWZw2ThcT2yMDWGYqQTFMf8uLHlzBfN0vMeiY=
+NEXTAUTH_URL=https://your-project-name.vercel.app
+```
+
+**方案 B：生产模式（需要 PostgreSQL 数据库）**
+
+```
+DEMO_MODE=false
+DATABASE_URL=postgresql://username:password@host:port/database
+NEXTAUTH_SECRET=Ad/ZgSMWZw2ThcT2yMDWGYqQTFMf8uLHlzBfN0vMeiY=
+NEXTAUTH_URL=https://your-project-name.vercel.app
+```
+
+**重要**：将 `your-project-name` 替换为您的实际 Vercel 项目域名
+
+### 3️⃣ 重新部署
+
+- 点击 "Deployments" 标签
+- 点击最新部署右侧的 "..." 菜单
+- 选择 "Redeploy"
+
+## 🎯 为什么需要这些环境变量？
+
+### `DEMO_MODE=true`
+
+- 启用演示模式，使用内存数据
+- 无需真实数据库连接
+- 完美适合展示和测试
+
+### `NEXTAUTH_SECRET`
+
+- Next.js 身份验证密钥
+- 确保会话安全
+- 可以使用提供的默认值或生成新的
+
+### `NEXTAUTH_URL`
+
+- 应用的完整 URL
+- 用于身份验证回调
+- 必须匹配您的 Vercel 域名
+
+## 🔧 构建脚本智能特性
+
+新的构建脚本会自动：
+
+- ✅ 检测是否有有效的 PostgreSQL 数据库 URL
+- ✅ 如果没有，自动启用演示模式
+- ✅ 跳过数据库迁移（演示模式）
+- ✅ 正常构建 Next.js 应用
+
+## 📊 部署后功能
+
+演示模式包含：
+
+- 📱 完整的用户界面
+- 🏺 15 个演示古玩产品
+- 📂 4 个产品分类
+- 🎨 中英文双语支持
+- ⚡ 所有性能优化
+- 🔐 管理员功能（演示数据）
+
+## 🚀 生产模式升级
+
+如果后续需要真实数据库：
+
+1. **创建 PostgreSQL 数据库**
+
+   - Neon: https://neon.tech （免费）
+   - Supabase: https://supabase.com （免费）
+   - PlanetScale: https://planetscale.com
+
+2. **更新环境变量**
+
+   ```
+   DEMO_MODE=false
+   DATABASE_URL=postgresql://user:pass@host:port/db
+   ```
+
+3. **重新部署**
+
+## 🆘 仍有问题？
+
+**常见错误及解决方案**：
+
+### Error: Invalid NEXTAUTH_URL
+
+```
+NEXTAUTH_URL=https://your-exact-vercel-domain.vercel.app
+```
+
+### Build still failing
+
+1. 清除 Vercel 缓存：Settings → Functions → Clear All Cache
+2. 确保所有环境变量已保存
+3. 重新部署
+
+### 404 错误
+
+- 检查 Vercel 项目配置
+- 确认 Next.js 框架检测正确
+- 查看构建日志中的错误信息
 
 ---
 
-🎉 **恭喜！您的 RelicHub 演示网站现在已经上线了！**
+**部署完成后，您将拥有一个完全功能的古玩交易平台演示！** 🎉

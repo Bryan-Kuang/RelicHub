@@ -1,5 +1,116 @@
 # RelicHub Vercel 部署指南
 
+## 🌍 Vercel 快速部署
+
+### 第一步：环境变量配置
+
+在 Vercel 项目设置中添加以下环境变量：
+
+#### 演示模式部署（推荐）
+
+```
+DEMO_MODE=true
+NEXTAUTH_SECRET=your-secret-key-here
+NEXTAUTH_URL=https://your-domain.vercel.app
+```
+
+#### 生产模式部署（需要 PostgreSQL 数据库）
+
+```
+DEMO_MODE=false
+DATABASE_URL=postgresql://username:password@host:port/database
+NEXTAUTH_SECRET=your-secret-key-here
+NEXTAUTH_URL=https://your-domain.vercel.app
+```
+
+### 第二步：部署命令
+
+项目已配置自动部署脚本：
+
+- `npm run vercel-build` - Vercel 构建命令
+- 自动检测演示模式
+- 自动生成 Prisma 客户端
+- 条件性数据库迁移
+
+### 🚨 重要说明
+
+1. **演示模式**：使用内存数据，无需数据库，适合快速演示
+2. **生产模式**：需要 PostgreSQL 数据库（推荐 Neon、Supabase、PlanetScale）
+3. **不要在生产环境使用 SQLite**：Vercel 无服务器环境不支持文件数据库
+
+### 🎯 推荐的生产数据库服务
+
+#### Neon PostgreSQL（免费额度）
+
+```bash
+# 1. 注册 https://neon.tech
+# 2. 创建数据库
+# 3. 复制连接字符串到 DATABASE_URL
+```
+
+#### Supabase PostgreSQL（免费额度）
+
+```bash
+# 1. 注册 https://supabase.com
+# 2. 创建项目
+# 3. 获取数据库URL
+```
+
+### 📋 部署检查清单
+
+- [ ] Vercel 环境变量已配置
+- [ ] `DEMO_MODE=true`（演示）或有效的`DATABASE_URL`（生产）
+- [ ] `NEXTAUTH_SECRET`已设置
+- [ ] `NEXTAUTH_URL`已设置为正确域名
+- [ ] 如果使用生产数据库，确保网络访问权限
+
+### 🐛 常见问题
+
+#### 问题：Prisma validation error "URL must start with protocol file:"
+
+**解决方案**：
+
+- 演示模式：设置`DEMO_MODE=true`
+- 生产模式：确保`DATABASE_URL`以`postgresql://`开头
+
+#### 问题：Database connection failed
+
+**解决方案**：
+
+1. 检查数据库 URL 格式
+2. 确认数据库服务器在线
+3. 检查网络访问权限
+4. 验证用户名/密码
+
+### 🚀 一键部署按钮
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/你的用户名/RelicHub&env=DEMO_MODE,NEXTAUTH_SECRET,NEXTAUTH_URL&envDescription=RelicHub部署环境变量&envLink=https://github.com/你的用户名/RelicHub/blob/main/DEPLOYMENT.md)
+
+---
+
+## 🔧 高级配置
+
+### 性能优化
+
+- 已启用 ISR（增量静态再生）
+- 多层缓存策略
+- 图片优化支持 WebP/AVIF
+- 代码分割和预加载
+
+### 安全设置
+
+- CSP 头配置
+- CSRF 保护
+- XSS 防护
+- 安全身份验证
+
+### 监控和分析
+
+- 内置性能监控
+- 错误追踪
+- 用户分析
+- 缓存命中率统计
+
 ## 部署前准备
 
 ### 1. 准备数据库（生产环境）
