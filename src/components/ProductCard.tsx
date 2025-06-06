@@ -26,16 +26,15 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
-      <div className="relative h-48">
+      <div className="relative h-48 w-full" style={{ height: "192px" }}>
         <OptimizedImage
           src={product.imageUrl}
           alt={product.name}
           fill
-          className="object-cover"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         {product.featured && (
-          <span className="absolute top-2 right-2 bg-amber-600 text-white text-xs px-2 py-1 rounded-full">
+          <span className="absolute top-2 right-2 bg-amber-600 text-white text-xs px-2 py-1 rounded-full z-10">
             {locale === "zh" ? "精选" : "Featured"}
           </span>
         )}
