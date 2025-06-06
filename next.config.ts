@@ -1,6 +1,11 @@
 import createNextIntlPlugin from "next-intl/plugin";
 import type { NextConfig } from "next";
 
+// Bundle analyzer 支持
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+
 // 创建next-intl插件
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
@@ -30,7 +35,7 @@ const nextConfig: NextConfig = {
     ],
     // 图片优化配置
     formats: ["image/webp", "image/avif"],
-    minimumCacheTTL: 300, // 5分钟缓存
+    minimumCacheTTL: 86400, // 24小时缓存
     dangerouslyAllowSVG: false,
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
@@ -39,6 +44,8 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   generateEtags: true, // 开启ETag支持缓存
+  reactStrictMode: true,
+  swcMinify: true,
   // 页面缓存配置
   async headers() {
     return [
@@ -71,17 +78,17 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  // 移除已弃用的 turbo 配置，优化构建性能
+  // 实验性配置优化
   experimental: {
     // 开启静态生成优化
     optimizePackageImports: ["@/components", "@/lib"],
   },
 
-  // 外部包配置（从 experimental 移出）
+  // 外部包配置（Next.js 15的正确配置）
   serverExternalPackages: ["prisma", "@prisma/client"],
 
   // 输出配置优化
   output: "standalone",
 };
 
-export default withNextIntl(nextConfig);
+export default withBundleAnalyzer(withNextIntl(nextConfig));

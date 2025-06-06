@@ -9,7 +9,12 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "npx prisma generate",
-    "vercel-build": "node scripts/vercel-build.js"
+    "vercel-build": "node scripts/vercel-build.js",
+    "analyze": "cross-env ANALYZE=true next build",
+    "bundle-analyzer": "npx @next/bundle-analyzer",
+    "db:push": "npx prisma db push",
+    "db:migrate": "npx prisma migrate dev",
+    "db:studio": "npx prisma studio"
   },
   "dependencies": {
     "@ant-design/icons": "^6.0.0",
@@ -28,14 +33,17 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@next/bundle-analyzer": "^15.3.3",
     "@tailwindcss/postcss": "^4",
     "@types/bcryptjs": "^2.4.6",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "15.3.2",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "@types/node": "^20.17.50",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.1.5",
+    "cross-env": "^7.0.3",
+    "eslint": "^9.27.0",
+    "eslint-config-next": "^15.3.2",
+    "postcss": "^8.5.4",
+    "tailwindcss": "^4.1.7",
+    "typescript": "^5.7.2"
   }
 }
