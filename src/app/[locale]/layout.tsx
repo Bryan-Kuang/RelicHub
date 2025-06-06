@@ -16,6 +16,14 @@ export const metadata: Metadata = {
   title: "CraftHub - Traditional Handicrafts",
   description:
     "Discover authentic traditional Chinese handicrafts including prayer beads, incense, wood carvings and tea sets",
+  icons: {
+    icon: [
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
 };
 
 // 获取消息
