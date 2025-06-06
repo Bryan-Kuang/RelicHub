@@ -1,13 +1,17 @@
 import { categoryAdapter } from "@/lib/demo-adapter";
 import Link from "next/link";
+import { Suspense } from "react";
 
 type Props = {
   params: Promise<{ locale: string }>;
 };
 
+// 添加ISR缓存
+export const revalidate = 300; // 5分钟重新验证
+
 async function getCategories() {
   try {
-    return await categoryAdapter.findMany();
+    return await categoryAdapter.findMany({});
   } catch (error) {
     console.error("获取分类列表失败:", error);
     return [];

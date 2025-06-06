@@ -276,6 +276,8 @@ npm run dev
 - 邮箱: admin@example.com
 - 密码: password123
 
+注意：系统仅支持管理员登录，不提供用户注册功能。
+
 ## 部署到 Vercel
 
 ### 准备工作

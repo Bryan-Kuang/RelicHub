@@ -2,11 +2,15 @@ import { productAdapter } from "@/lib/demo-adapter";
 import ProductCard from "@/components/ProductCard";
 import Link from "next/link";
 import { locales } from "@/i18n/routing";
+import { Suspense } from "react";
 
 // 生成静态参数
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
+
+// 添加缓存重新验证
+export const revalidate = 300; // 5分钟重新验证
 
 // 获取翻译消息
 async function getMessages(locale: string) {
@@ -36,10 +40,53 @@ type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
+// 产品列表组件
+async function ProductList({ locale }: { locale: string }) {
+  const products = await getAllProducts();
+  const messages = await getMessages(locale);
+  const t = messages.products;
+
+  if (products.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-lg text-gray-600">{t.noResults}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {products.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))}
+    </div>
+  );
+}
+
+// 加载骨架屏组件
+function ProductListSkeleton() {
+  return (
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <div
+          key={i}
+          className="bg-white rounded-lg shadow-md overflow-hidden animate-pulse"
+        >
+          <div className="h-48 bg-gray-200"></div>
+          <div className="p-4">
+            <div className="h-4 bg-gray-200 rounded mb-2"></div>
+            <div className="h-3 bg-gray-200 rounded mb-4 w-2/3"></div>
+            <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default async function ProductsPage({ params, searchParams }: Props) {
   const resolvedParams = await params;
   const { locale } = resolvedParams;
-  const products = await getAllProducts();
   const messages = await getMessages(locale);
   const t = messages.products;
 
@@ -63,18 +110,10 @@ export default async function ProductsPage({ params, searchParams }: Props) {
         </div>
       </div>
 
-      {/* 产品列表 */}
-      {products.length > 0 ? (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-12">
-          <p className="text-lg text-gray-600">{t.noResults}</p>
-        </div>
-      )}
+      {/* 产品列表 - 使用Suspense实现流式渲染 */}
+      <Suspense fallback={<ProductListSkeleton />}>
+        <ProductList locale={locale} />
+      </Suspense>
     </div>
   );
 }

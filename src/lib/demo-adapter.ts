@@ -9,6 +9,7 @@ import {
   demoProductsWithCategories,
   demoStats,
 } from "./demo-data";
+import { withCache, cacheKeys } from "./performance-cache";
 
 // 检查是否为演示模式
 const isDemoMode = process.env.DEMO_MODE === "true";
@@ -17,35 +18,39 @@ console.log(`🎭 演示模式: ${isDemoMode ? "开启" : "关闭"}`);
 
 // 分类数据适配器
 export const categoryAdapter = {
-  async findMany(options?: { include?: any; take?: number }) {
-    if (isDemoMode) {
-      let categories = demoCategories.map((cat) => ({
-        ...cat,
-        products: demoProducts.filter(
-          (product) => product.categoryId === cat.id
-        ),
-        _count: {
+  findMany: withCache(
+    async (options?: { include?: any; take?: number }) => {
+      if (isDemoMode) {
+        let categories = demoCategories.map((cat) => ({
+          ...cat,
           products: demoProducts.filter(
             (product) => product.categoryId === cat.id
-          ).length,
-        },
-      }));
+          ),
+          _count: {
+            products: demoProducts.filter(
+              (product) => product.categoryId === cat.id
+            ).length,
+          },
+        }));
 
-      // 限制数量
-      if (options?.take) {
-        categories = categories.slice(0, options.take);
+        // 限制数量
+        if (options?.take) {
+          categories = categories.slice(0, options.take);
+        }
+
+        return categories;
       }
-
-      return categories;
-    }
-    return await prisma.category.findMany({
-      include: {
-        products: true,
-        _count: { select: { products: true } },
-      },
-      ...options,
-    });
-  },
+      return await prisma.category.findMany({
+        include: {
+          products: true,
+          _count: { select: { products: true } },
+        },
+        ...options,
+      });
+    },
+    (options) => cacheKeys.categories(options),
+    600000 // 10分钟缓存（分类变化较少）
+  ),
 
   async findUnique(id: string) {
     if (isDemoMode) {
@@ -74,65 +79,73 @@ export const categoryAdapter = {
 
 // 产品数据适配器
 export const productAdapter = {
-  async findMany(options?: {
-    where?: any;
-    include?: any;
-    orderBy?: any;
-    take?: number;
-  }) {
-    if (isDemoMode) {
-      let products = demoProductsWithCategories;
+  findMany: withCache(
+    async (options?: {
+      where?: any;
+      include?: any;
+      orderBy?: any;
+      take?: number;
+    }) => {
+      if (isDemoMode) {
+        let products = demoProductsWithCategories;
 
-      // 简单的过滤逻辑
-      if (options?.where?.featured !== undefined) {
-        products = products.filter(
-          (p) => p.featured === options.where.featured
-        );
+        // 简单的过滤逻辑
+        if (options?.where?.featured !== undefined) {
+          products = products.filter(
+            (p) => p.featured === options.where.featured
+          );
+        }
+        if (options?.where?.categoryId) {
+          products = products.filter(
+            (p) => p.categoryId === options.where.categoryId
+          );
+        }
+
+        // 简单的排序
+        if (options?.orderBy?.createdAt === "desc") {
+          products = [...products].reverse();
+        }
+
+        // 限制数量
+        if (options?.take) {
+          products = products.slice(0, options.take);
+        }
+
+        return products;
       }
-      if (options?.where?.categoryId) {
-        products = products.filter(
-          (p) => p.categoryId === options.where.categoryId
-        );
+
+      return await prisma.product.findMany({
+        include: { category: true },
+        ...options,
+      });
+    },
+    (options) => cacheKeys.products(options),
+    300000 // 5分钟缓存
+  ),
+
+  findUnique: withCache(
+    async (id: string) => {
+      if (isDemoMode) {
+        const product = demoProducts.find((p) => p.id === id);
+        if (product) {
+          return {
+            ...product,
+            category: demoCategories.find(
+              (cat) => cat.id === product.categoryId
+            )!,
+          };
+        }
+        return null;
       }
 
-      // 简单的排序
-      if (options?.orderBy?.createdAt === "desc") {
-        products = [...products].reverse();
-      }
-
-      // 限制数量
-      if (options?.take) {
-        products = products.slice(0, options.take);
-      }
-
-      return products;
-    }
-
-    return await prisma.product.findMany({
-      include: { category: true },
-      ...options,
-    });
-  },
-
-  async findUnique(id: string) {
-    if (isDemoMode) {
-      const product = demoProducts.find((p) => p.id === id);
-      if (product) {
-        return {
-          ...product,
-          category: demoCategories.find(
-            (cat) => cat.id === product.categoryId
-          )!,
-        };
-      }
-      return null;
-    }
-
-    return await prisma.product.findUnique({
-      where: { id },
-      include: { category: true },
-    });
-  },
+      return await prisma.product.findUnique({
+        where: { id },
+        include: { category: true },
+      });
+    },
+    (id) => cacheKeys.product(id),
+    600000 // 10分钟缓存（产品详情变化较少）
+  ),
 
   async count(where?: any) {
     if (isDemoMode) {
@@ -168,39 +181,37 @@ export const userAdapter = {
     }
   },
 
-  async create(data: any) {
-    if (isDemoMode) {
-      // 演示模式下不创建真实用户，返回模拟响应
-      console.log("🎭 演示模式：用户注册请求已收到但未保存");
-      return {
-        id: `demo-user-${Date.now()}`,
-        ...data,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      };
-    }
-
-    return await prisma.user.create({ data });
-  },
+  // 移除用户创建功能 - 仅管理员可以登录
+  // async create(data: any) {
+  //   if (isDemoMode) {
+  //     console.log("🎭 演示模式：用户注册功能已禁用");
+  //     throw new Error("注册功能已禁用");
+  //   }
+  //   return await prisma.user.create({ data });
+  // },
 };
 
 // 统计数据适配器
 export const statsAdapter = {
-  async getDashboardStats() {
-    if (isDemoMode) {
-      return demoStats;
-    }
+  getDashboardStats: withCache(
+    async () => {
+      if (isDemoMode) {
+        return demoStats;
+      }
 
-    const productsCount = await prisma.product.count();
-    const categoriesCount = await prisma.category.count();
-    const featuredProductsCount = await prisma.product.count({
-      where: { featured: true },
-    });
+      const productsCount = await prisma.product.count();
+      const categoriesCount = await prisma.category.count();
+      const featuredProductsCount = await prisma.product.count({
+        where: { featured: true },
+      });
 
-    return {
-      productsCount,
-      categoriesCount,
-      featuredProductsCount,
-    };
-  },
+      return {
+        productsCount,
+        categoriesCount,
+        featuredProductsCount,
+      };
+    },
+    () => cacheKeys.stats(),
+    900000 // 15分钟缓存（统计数据变化较少）
+  ),
 };

@@ -43,16 +43,10 @@ export default function LoginPage() {
       <div className="max-w-md w-full space-y-8 bg-white p-8 rounded-lg shadow-md">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-amber-900">
-            登录您的账户
+            管理员登录
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            或{" "}
-            <Link
-              href="/register"
-              className="font-medium text-amber-600 hover:text-amber-500"
-            >
-              注册新账户
-            </Link>
+            请使用管理员账户登录
           </p>
         </div>
         {error && (

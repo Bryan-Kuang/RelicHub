@@ -97,28 +97,16 @@ export default function Navbar() {
                 </button>
               </>
             ) : (
-              <>
-                <Link
-                  href="/login"
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname.includes("/login")
-                      ? "bg-amber-900"
-                      : "hover:bg-amber-700"
-                  }`}
-                >
-                  {t("login")}
-                </Link>
-                <Link
-                  href="/register"
-                  className={`px-3 py-2 rounded-md text-sm font-medium ${
-                    pathname.includes("/register")
-                      ? "bg-amber-900"
-                      : "hover:bg-amber-700"
-                  }`}
-                >
-                  {t("register")}
-                </Link>
-              </>
+              <Link
+                href="/login"
+                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                  pathname.includes("/login")
+                    ? "bg-amber-900"
+                    : "hover:bg-amber-700"
+                }`}
+              >
+                {t("login")}
+              </Link>
             )}
 
             {/* 语言切换简约按钮 */}
@@ -269,30 +257,17 @@ export default function Navbar() {
                 </button>
               </>
             ) : (
-              <>
-                <Link
-                  href="/login"
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    pathname.includes("/login")
-                      ? "bg-amber-900"
-                      : "hover:bg-amber-700"
-                  }`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {t("login")}
-                </Link>
-                <Link
-                  href="/register"
-                  className={`block px-3 py-2 rounded-md text-base font-medium ${
-                    pathname.includes("/register")
-                      ? "bg-amber-900"
-                      : "hover:bg-amber-700"
-                  }`}
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {t("register")}
-                </Link>
-              </>
+              <Link
+                href="/login"
+                className={`block px-3 py-2 rounded-md text-base font-medium ${
+                  pathname.includes("/login")
+                    ? "bg-amber-900"
+                    : "hover:bg-amber-700"
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {t("login")}
+              </Link>
             )}
           </div>
         </div>

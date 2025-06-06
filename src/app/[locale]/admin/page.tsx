@@ -1,14 +1,89 @@
 import { Link } from "@/i18n/navigation";
 import { statsAdapter } from "@/lib/demo-adapter";
+import { Suspense } from "react";
 
 type Props = {
   params: Promise<{ locale: string }>;
 };
 
+// 添加ISR缓存
+export const revalidate = 300; // 5分钟重新验证
+
+// 统计数据组件
+async function DashboardStats({ locale }: { locale: string }) {
+  const stats = await statsAdapter.getDashboardStats();
+
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+      <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+        <h2 className="text-lg font-medium text-amber-900">
+          {locale === "zh" ? "藏品总数" : "Total Products"}
+        </h2>
+        <p className="text-3xl font-bold text-amber-700 mt-2">
+          {stats.productsCount}
+        </p>
+        <Link
+          href="/admin/products"
+          className="text-sm text-amber-600 hover:text-amber-800 mt-2 inline-block"
+        >
+          {locale === "zh" ? "管理藏品 →" : "Manage Products →"}
+        </Link>
+      </div>
+
+      <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+        <h2 className="text-lg font-medium text-amber-900">
+          {locale === "zh" ? "分类总数" : "Total Categories"}
+        </h2>
+        <p className="text-3xl font-bold text-amber-700 mt-2">
+          {stats.categoriesCount}
+        </p>
+        <Link
+          href="/admin/categories"
+          className="text-sm text-amber-600 hover:text-amber-800 mt-2 inline-block"
+        >
+          {locale === "zh" ? "管理分类 →" : "Manage Categories →"}
+        </Link>
+      </div>
+
+      <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
+        <h2 className="text-lg font-medium text-amber-900">
+          {locale === "zh" ? "精选藏品" : "Featured Products"}
+        </h2>
+        <p className="text-3xl font-bold text-amber-700 mt-2">
+          {stats.featuredProductsCount}
+        </p>
+        <Link
+          href="/admin/products?featured=true"
+          className="text-sm text-amber-600 hover:text-amber-800 mt-2 inline-block"
+        >
+          {locale === "zh" ? "查看精选藏品 →" : "View Featured →"}
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+// 统计数据骨架屏
+function StatsSkeletons() {
+  return (
+    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+      {Array.from({ length: 3 }).map((_, i) => (
+        <div
+          key={i}
+          className="bg-amber-50 p-4 rounded-lg border border-amber-200 animate-pulse"
+        >
+          <div className="h-6 bg-gray-200 rounded mb-2"></div>
+          <div className="h-10 bg-gray-200 rounded mb-2"></div>
+          <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default async function AdminDashboard({ params }: Props) {
   const resolvedParams = await params;
   const { locale } = resolvedParams;
-  const stats = await statsAdapter.getDashboardStats();
 
   return (
     <div>
@@ -16,52 +91,10 @@ export default async function AdminDashboard({ params }: Props) {
         {locale === "zh" ? "管理控制台" : "Admin Dashboard"}
       </h1>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-        <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
-          <h2 className="text-lg font-medium text-amber-900">
-            {locale === "zh" ? "藏品总数" : "Total Products"}
-          </h2>
-          <p className="text-3xl font-bold text-amber-700 mt-2">
-            {stats.productsCount}
-          </p>
-          <Link
-            href="/admin/products"
-            className="text-sm text-amber-600 hover:text-amber-800 mt-2 inline-block"
-          >
-            {locale === "zh" ? "管理藏品 →" : "Manage Products →"}
-          </Link>
-        </div>
-
-        <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
-          <h2 className="text-lg font-medium text-amber-900">
-            {locale === "zh" ? "分类总数" : "Total Categories"}
-          </h2>
-          <p className="text-3xl font-bold text-amber-700 mt-2">
-            {stats.categoriesCount}
-          </p>
-          <Link
-            href="/admin/categories"
-            className="text-sm text-amber-600 hover:text-amber-800 mt-2 inline-block"
-          >
-            {locale === "zh" ? "管理分类 →" : "Manage Categories →"}
-          </Link>
-        </div>
-
-        <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
-          <h2 className="text-lg font-medium text-amber-900">
-            {locale === "zh" ? "精选藏品" : "Featured Products"}
-          </h2>
-          <p className="text-3xl font-bold text-amber-700 mt-2">
-            {stats.featuredProductsCount}
-          </p>
-          <Link
-            href="/admin/products?featured=true"
-            className="text-sm text-amber-600 hover:text-amber-800 mt-2 inline-block"
-          >
-            {locale === "zh" ? "查看精选藏品 →" : "View Featured →"}
-          </Link>
-        </div>
-      </div>
+      {/* 统计数据 - 使用Suspense实现流式渲染 */}
+      <Suspense fallback={<StatsSkeletons />}>
+        <DashboardStats locale={locale} />
+      </Suspense>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>

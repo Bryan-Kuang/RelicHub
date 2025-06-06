@@ -2,6 +2,7 @@ import { productAdapter } from "@/lib/demo-adapter";
 import Link from "next/link";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
+import { Suspense } from "react";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -9,6 +10,9 @@ type Props = {
     featured?: string;
   }>;
 };
+
+// 添加ISR缓存
+export const revalidate = 300; // 5分钟重新验证
 
 async function getProducts(featured?: boolean) {
   try {

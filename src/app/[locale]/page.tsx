@@ -9,6 +9,9 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));
 }
 
+// 添加ISR缓存
+export const revalidate = 300; // 5分钟重新验证
+
 // 获取翻译消息
 async function getMessages(locale: string) {
   try {

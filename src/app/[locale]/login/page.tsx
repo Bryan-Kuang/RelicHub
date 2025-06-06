@@ -43,7 +43,7 @@ export default function LoginPage() {
     <div className="max-w-md mx-auto my-16 px-4">
       <div className="bg-white rounded-lg shadow-md p-8">
         <h1 className="text-2xl font-bold text-amber-900 mb-6 text-center">
-          {locale === "zh" ? "登录" : "Login"}
+          {locale === "zh" ? "管理员登录" : "Admin Login"}
         </h1>
 
         {error && (
@@ -106,10 +106,9 @@ export default function LoginPage() {
 
         <div className="mt-4 text-center">
           <p className="text-sm text-gray-600">
-            {locale === "zh" ? "还没有账号？" : "Don't have an account? "}
-            <Link href="/register" className="text-amber-700 hover:underline">
-              {locale === "zh" ? "注册" : "Register"}
-            </Link>
+            {locale === "zh"
+              ? "请使用管理员账户登录系统"
+              : "Please use admin credentials to login"}
           </p>
         </div>
       </div>

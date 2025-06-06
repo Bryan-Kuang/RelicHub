@@ -4,7 +4,6 @@
     "products": "手工艺品",
     "categories": "分类",
     "login": "登录",
-    "register": "注册",
     "admin": "管理",
     "logout": "退出",
     "search": "搜索..."
@@ -135,20 +134,50 @@
     "validationError": "请至少提供一个购买链接（Amazon或eBay）",
     "createProductFailed": "创建手工艺品失败",
     "updateProductFailed": "更新手工艺品失败",
-    "createCategoryFailed": "创建分类失败"
+    "createCategoryFailed": "创建分类失败",
+    "imageUrlHelper": "如何获取图片URL？",
+    "imageUrlHelperTitle": "获取商品图片URL教程",
+    "imageUrlPlaceholder": "输入图片URL或点击帮助了解如何获取",
+    "getImageFromAmazon": "从Amazon链接提取",
+    "getImageFromEbay": "从eBay链接提取",
+    "imagePreview": "图片预览",
+    "imageUrlTutorial": {
+      "title": "如何获取商品图片URL",
+      "amazon": {
+        "title": "从Amazon获取图片",
+        "steps": [
+          "1. 打开您的Amazon商品页面",
+          "2. 右键点击主要商品图片",
+          "3. 选择\"复制图片地址\"或\"在新标签页中打开图片\"",
+          "4. 复制地址栏中的完整URL",
+          "5. 粘贴到上方的图片URL输入框中"
+        ]
+      },
+      "ebay": {
+        "title": "从eBay获取图片",
+        "steps": [
+          "1. 打开您的eBay商品页面",
+          "2. 右键点击商品图片",
+          "3. 选择\"复制图片地址\"",
+          "4. 粘贴到上方的图片URL输入框中"
+        ]
+      },
+      "tips": "提示：选择高质量、清晰的商品图片将提高手工艺品的吸引力。建议选择白色背景或纯色背景的图片。"
+    },
+    "imageUrlValid": "图片URL有效",
+    "imageUrlInvalid": "图片URL无效或无法访问",
+    "testingImage": "验证图片中...",
+    "close": "关闭"
   },
   "auth": {
     "login": "登录",
-    "register": "注册",
     "email": "邮箱",
     "password": "密码",
     "name": "姓名",
     "submit": "提交",
     "adminArea": "管理员专区",
     "loggingIn": "登录中...",
-    "registering": "注册中...",
-    "alreadyHaveAccount": "已有账号？",
-    "dontHaveAccount": "还没有账号？"
+    "alreadyHaveAccount": "已有账号？"
   },
   "common": {
     "loading": "加载中...",

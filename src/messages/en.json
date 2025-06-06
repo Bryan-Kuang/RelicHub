@@ -4,7 +4,6 @@
     "products": "Crafts",
     "categories": "Categories",
     "login": "Login",
-    "register": "Register",
     "admin": "Admin",
     "logout": "Logout",
     "search": "Search..."
@@ -135,20 +134,50 @@
     "validationError": "Please provide at least one purchase link (Amazon or eBay)",
     "createProductFailed": "Failed to create handicraft",
     "updateProductFailed": "Failed to update handicraft",
-    "createCategoryFailed": "Failed to create category"
+    "createCategoryFailed": "Failed to create category",
+    "imageUrlHelper": "How to get image URL?",
+    "imageUrlHelperTitle": "Product Image URL Tutorial",
+    "imageUrlPlaceholder": "Enter image URL or click help to learn how to get it",
+    "getImageFromAmazon": "Extract from Amazon link",
+    "getImageFromEbay": "Extract from eBay link",
+    "imagePreview": "Image Preview",
+    "imageUrlTutorial": {
+      "title": "How to Get Product Image URL",
+      "amazon": {
+        "title": "Get Image from Amazon",
+        "steps": [
+          "1. Open your Amazon product page",
+          "2. Right-click on the main product image",
+          "3. Select \"Copy image address\" or \"Open image in new tab\"",
+          "4. Copy the complete URL from the address bar",
+          "5. Paste into the image URL input field above"
+        ]
+      },
+      "ebay": {
+        "title": "Get Image from eBay",
+        "steps": [
+          "1. Open your eBay product page",
+          "2. Right-click on the product image",
+          "3. Select \"Copy image address\"",
+          "4. Paste into the image URL input field above"
+        ]
+      },
+      "tips": "Tips: Choose high-quality, clear product images to enhance the appeal of your handicraft. Images with white or solid color backgrounds are recommended."
+    },
+    "imageUrlValid": "Image URL is valid",
+    "imageUrlInvalid": "Image URL is invalid or inaccessible",
+    "testingImage": "Validating image...",
+    "close": "Close"
   },
   "auth": {
     "login": "Login",
-    "register": "Register",
     "email": "Email",
     "password": "Password",
     "name": "Name",
     "submit": "Submit",
     "adminArea": "This is an admin area",
     "loggingIn": "Logging in...",
-    "registering": "Registering...",
-    "alreadyHaveAccount": "Already have an account?",
-    "dontHaveAccount": "Don't have an account?"
+    "alreadyHaveAccount": "Already have an account?"
   },
   "common": {
     "loading": "Loading...",
