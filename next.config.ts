@@ -12,6 +12,21 @@ const nextConfig: NextConfig = {
         hostname: "images.unsplash.com",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "sdmntpreastus.oaiusercontent.com",
+        pathname: "**",
+      },
+      {
+        protocol: "http",
+        hostname: "www.dgxcjt.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "www.dgxcjt.com",
+        pathname: "**",
+      },
     ],
     // 图片优化配置
     formats: ["image/webp", "image/avif"],
@@ -56,16 +71,17 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  // Turbopack支持配置
+  // 移除已弃用的 turbo 配置，优化构建性能
   experimental: {
-    turbo: {
-      resolveAlias: {
-        "next-intl/config": "./src/i18n/request.ts",
-      },
-    },
     // 开启静态生成优化
     optimizePackageImports: ["@/components", "@/lib"],
   },
+
+  // 外部包配置（从 experimental 移出）
+  serverExternalPackages: ["prisma", "@prisma/client"],
+
+  // 输出配置优化
+  output: "standalone",
 };
 
 export default withNextIntl(nextConfig);
