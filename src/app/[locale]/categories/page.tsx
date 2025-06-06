@@ -21,7 +21,7 @@ async function getMessages(locale: string) {
 // 获取所有分类
 async function getAllCategories() {
   try {
-    const categories = await categoryAdapter.findMany();
+    const categories = await categoryAdapter.findMany({});
     return categories;
   } catch (error) {
     console.error("获取分类列表失败:", error);

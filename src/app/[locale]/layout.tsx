@@ -36,13 +36,12 @@ export function generateStaticParams() {
 
 type Props = {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 };
 
 export default async function RootLayout({ children, params }: Props) {
-  // 在Next.js 15中需要先await params对象
-  const resolvedParams = await Promise.resolve(params);
-  const { locale } = resolvedParams;
+  // 在Next.js 15中params是Promise类型
+  const { locale } = await params;
   const messages = await getMessages(locale);
 
   return (

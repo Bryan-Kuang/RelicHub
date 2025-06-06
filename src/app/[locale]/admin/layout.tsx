@@ -5,12 +5,11 @@ import { authOptions } from "@/lib/auth";
 
 type Props = {
   children: React.ReactNode;
-  params: { locale: string };
+  params: Promise<{ locale: string }>;
 };
 
 export default async function AdminLayout({ children, params }: Props) {
-  const resolvedParams = await Promise.resolve(params);
-  const { locale } = resolvedParams;
+  const { locale } = await params;
   const session = await getServerSession(authOptions);
 
   if (!session || !session.user.isAdmin) {
