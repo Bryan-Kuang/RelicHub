@@ -23,6 +23,10 @@
 # misc
 .DS_Store
 *.pem
+Thumbs.db
+*.tmp
+*.temp
+*.log
 
 # debug
 npm-debug.log*
@@ -40,4 +44,14 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# prisma generated files
 /src/generated/prisma
+
+# temp directories
+/temp/
+/tmp/
+
+# cache directories
+.cache/
+.npm/
+.yarn-cache/
