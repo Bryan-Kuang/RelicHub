@@ -98,7 +98,7 @@ export default async function HomePage({ params }: Props) {
             </div>
             <div className="relative h-96 bg-gray-100 rounded-lg overflow-hidden">
               <Image
-                src="/images/heritage-banner.jpg"
+                src="/images/banner.webp"
                 alt="Heritage Banner"
                 fill
                 className="object-cover"
