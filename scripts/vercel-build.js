@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 const { execSync } = require("child_process");
+const fs = require("fs");
+const path = require("path");
 
 // Vercel生产环境配置
 const isDemoMode = process.env.DEMO_MODE === "true";
@@ -23,6 +25,17 @@ if (!isDemoMode && !hasValidDatabaseUrl) {
   console.error("请在Vercel环境变量中配置DATABASE_URL或设置DEMO_MODE=true");
   process.exit(1);
 }
+
+// 配置数据库 schema (Vercel环境始终使用PostgreSQL)
+console.log("🔧 配置数据库 schema...");
+const schemaPath = path.join(__dirname, "../prisma/schema.prisma");
+let schema = fs.readFileSync(schemaPath, "utf8");
+
+// 在Vercel环境中，始终使用PostgreSQL
+schema = schema.replace('provider = "sqlite"', 'provider = "postgresql"');
+schema = schema.replace('provider = "mysql"', 'provider = "postgresql"');
+fs.writeFileSync(schemaPath, schema);
+console.log("✅ 数据库 schema 配置为 PostgreSQL");
 
 try {
   // 总是生成 Prisma 客户端
