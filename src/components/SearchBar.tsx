@@ -2,14 +2,17 @@
 
 import { useState, FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { useNavigationLoading } from "./NavigationProvider";
 
 export default function SearchBar() {
   const router = useRouter();
+  const { startLoading } = useNavigationLoading();
   const [query, setQuery] = useState("");
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
+      startLoading();
       router.push(`/products?search=${encodeURIComponent(query.trim())}`);
     }
   };

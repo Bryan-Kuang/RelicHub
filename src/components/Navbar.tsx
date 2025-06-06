@@ -5,12 +5,14 @@ import { useLocale } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { useState } from "react";
+import { useNavigationLoading } from "./NavigationProvider";
 
 export default function Navbar() {
   const { data: session } = useSession();
   const pathname = usePathname();
   const locale = useLocale();
   const t = useTranslations("navigation");
+  const { startLoading } = useNavigationLoading();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -23,6 +25,7 @@ export default function Navbar() {
   const handleLanguageChange = (newLocale: string) => {
     if (locale === newLocale) return;
 
+    startLoading();
     const currentPath = pathname.startsWith(`/${locale}`)
       ? pathname.slice(locale.length + 1)
       : pathname;

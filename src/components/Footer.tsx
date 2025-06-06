@@ -13,12 +13,12 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0">
             <h3 className="text-lg font-bold">
-              {locale === "zh" ? "古玩珍藏" : "RelicHub"}
+              {locale === "zh" ? "工艺坊" : "CraftHub"}
             </h3>
             <p className="text-sm mt-1">
               {locale === "zh"
-                ? "珍贵古玩，尽在掌握"
-                : "Antique Treasures at Your Fingertips"}
+                ? "匠心传承，文化延续"
+                : "Craftsmanship Heritage, Cultural Continuity"}
             </p>
           </div>
           <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-6">

@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import NavigationProvider from "@/components/NavigationProvider";
 import { AuthProvider } from "../providers";
 import { NextIntlClientProvider } from "next-intl";
 import { locales } from "@/i18n/routing";
@@ -61,9 +62,11 @@ export default async function RootLayout({ children, params }: Props) {
           <ConfigProvider theme={theme}>
             <NextIntlClientProvider locale={locale} messages={messages}>
               <AuthProvider>
-                <Navbar />
-                <main className="flex-grow">{children}</main>
-                <Footer />
+                <NavigationProvider>
+                  <Navbar />
+                  <main className="flex-grow">{children}</main>
+                  <Footer />
+                </NavigationProvider>
               </AuthProvider>
             </NextIntlClientProvider>
           </ConfigProvider>
